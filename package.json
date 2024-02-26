@@ -1,0 +1,22 @@
+{
+  "name": "gabrielport",
+  "version": "1.0.0",
+  "description": "Portfolio do Gabriel.",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitorxcp/GabrielPort.git"
+  },
+  "keywords": [
+    "portfolio"
+  ],
+  "author": "vitor_xp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitorxcp/GabrielPort/issues"
+  },
+  "homepage": "https://github.com/vitorxcp/GabrielPort#readme"
+}
