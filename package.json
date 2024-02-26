@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/vitorxcp/GabrielPort/issues"
   },
-  "homepage": "https://github.com/vitorxcp/GabrielPort#readme"
+  "homepage": "https://github.com/vitorxcp/GabrielPort#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
