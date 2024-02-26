@@ -29,6 +29,9 @@ module.exports = {
       containers: {
         '2xs': '16rem',
       },
+      fontFamily: {
+        sans: ['"League Spartan"', 'sans-serif'],
+      },
     },
   },
   variants: {

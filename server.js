@@ -7,4 +7,6 @@ app.get("/", function (req, res) {
     res.render("index.html")
 })
 
+app.use(express.static('views'));
+
 app.listen(80);
