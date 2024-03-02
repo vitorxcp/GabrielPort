@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagína Inicial - Gabriel Felipe Martins</title>
+    <link rel="stylesheet" href="/css/style.css" importance="true">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/ds99fda34ef21f020f54.css"
+        importance="true">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
+        importance="true">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/main.js" importance="true"></script>
+    <script>
+        $(document).ready(function (event) {
+            $('[id^="contact-options"]').click(function (v) {
+                var type = $(this).attr("value");
+                $('[id^="contact-options"]').removeClass("text-[#104576] after:border-t-[#1D2740] after:border-t").addClass("text-[#A2A3A5]")
+                $(this).removeClass("text-[#A2A3A5]").addClass("after:border-t-[#1D2740] text-[#104576] after:border-t")
+
+                if ($("#contact-view").attr("type") === type) return;
+                if (type === "message") {
+                    $("#contact-view")
+                        .attr("type", type)
+                        .html(`
+                    <div class="flex flex-col gap-[10px]">
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu Nome (obrigatório)</h1>
+                                <input type="text" name="name" id="name-contact" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu e-mail (obrigatório)</h1>
+                                <input type="text" name="name" id="email-contact" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu Endereço</h1>
+                                <input type="text" name="name" id="address-contact"
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Sua Mensagem (obrigatório)</h1>
+                                <textarea name="message" id="message-content" cols="10" rows="5" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2"></textarea>
+                            </div>
+                            <div class="mt-[-8px] mb-[5px]">
+                                <button
+                                    class="bg-[#1C253D] active:bg-[#1C253D] hover:bg-[#212c48] text-[#9A9B9E] active:text-[#9A9B9E] hover:text-[#b7b8bb] transition-[1s] text-[20px] w-full p-1 rounded-md"
+                                    id="send-message" type="submit">Enviar</button>
+                            </div>
+                        </div>
+                    `)
+                } else {
+                    $("#contact-view")
+                        .attr("type", type)
+                        .html(`
+                    <div class="flex flex-col gap-[10px]">
+                            <div>
+                                <h1 class="text-[#ffffff]">Telefone</h1>
+                                <span class="text-[#A2A3A5]"><i class="fab fa-whatsapp mr-[5px]"
+                                        aria-label="WhatsApp"></i> (65) 98110-2631</span>
+                            </div>
+                            <div>
+                                <h1 class="text-[#ffffff]">E-mail</h1>
+                                <span class="text-[#A2A3A5]">contato@gabrielmartins.com.br</span>
+                            </div>
+                            <div>
+                                <h1 class="text-[#ffffff]">Redes Sociais</h1>
+                                <span class="text-[#A2A3A5]"><i class="fab fa-instagram mr-[5px]" aria-label="Instagram"></i>
+                                    @gabrielmartinsvg</span>
+                            </div>
+                        </div>
+                    `)
+                }
+            })
+            $('[id^="agent-event"]').click(function (event) {
+                PopContent({
+                    element: `
+            <h1>Não encontrei esse Evento...</h1>
+            `,
+                    classes: "flex justify-center items-center w-full h-full"
+                })
+                visibilityOrHiddenPop();
+            })
+        })
+    </script>
+</head>
+
+<body class="bg-[#0B0E13] font-sans text-white">
+    <div class="hidden bg-[rgb(0,0,0,0.46)] w-full h-full justify-center items-center z-20 fixed transition-[1s] tr"
+        id="view-pop">
+        <div class="bg-[#13171F] rounded-md p-2 w-[350px] h-[150px] flex flex-col" id="view-pop-display">
+            <div id="view-pop-content"></div>
+            <div class="absolute flex justify-end" style="width: inherit; margin-left: -15px;">
+                <button id="view-pop-close">
+                    <i class="text-xl text-red-500 fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
+        <div class="flex justify-between items-center center gap-[100px] pl-[20px] pr-[20px]">
+            <div class="flex">
+                <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+            </div>
+            <div class="flex">
+                <a href="/">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Pagína
+                        Inicial
+                    </div>
+                </a>
+                <a href="/biography">
+                    <div
+                        class="text-[#dedede] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Biografia</div>
+                </a>
+                <a href="/blog">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Notícias
+                    </div>
+                </a>
+                <a href="/galery">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Galeria
+                    </div>
+                </a>
+            </div>
+            <div class="flex">
+                <button
+                    class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                    id="login-user">
+                    <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+            </div>
+        </div>
+        <div id="warn-bar">
+            <div class="bg-[#342B10] w-full h-[25px] flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center" id=" text-warn-bar">Site em construção, varios sistemas
+                    podem não
+                    funcionar
+                    corretamente.</span>
+            </div>
+        </div>
+    </nav>
+    <div class="h-[160px]"></div>
+    <section class="flex flex-col gap-[40px]">
+        <div class="flex flex-col items-center justify-center w-full pr-[300px] pl-[300px]">
+            <div class="bg-[#13171F] w-full h-[350px] rounded-lg" id="img-bio"></div>
+            <div class="bg-[#0B0E13] rounded-full w-[150px] h-[150px] mt-[-70px]"></div>
+            <div class="bg-[#13171F] rounded-full w-[130px] h-[130px] mt-[-140px]"></div>
+            <div class="flex flex-col gap-[5px] mt-[5px] justify-center items-center">
+                <h1 class="text-[35px] font-medium">Gabriel Felipe Martins</h1>
+                <div class="bg-[#13171F] w-[25px] h-[25px] rounded-md mt-[-5px]" id="pas-ws"></div>
+            </div>
+        </div>
+        <div class="flex flex-col items-center justify-center w-full pr-[500px] pl-[500px]">
+            <div class="bg-[#13171F] w-full h-[500px] rounded-xl" id="bio-mark"></div>
+        </div>
+        <div class="flex justify-center w-full pr-[300px] pl-[300px] gap-[10px]">
+            <div class="flex flex-col gap-[10px]">
+                <h1 class="text-[#A2A3A5] text-[30px] flex gap-[10px] items-center"><i class="fa-regular fa-user"></i>
+                    Fale com a
+                    Equipe</h1>
+                <div class="bg-transparent border-[2px] border-[#1D2740] rounded-2xl p-3 pr-5 pl-5 w-max">
+                    <div class="flex gap-5">
+                        <button
+                            class="bg-transparent text-[24px] text-[#104576] hover:text-[#1c3247] transition-[3s] hover:after:border-t-[#1D2740] after:border-t after:rounded-full hover:after:border-t after:w-full after:block after:ease-in-out after:border-t-[#1D2740]"
+                            id="contact-options" value="message">Enviar
+                            Mensagem</button>
+                        <button
+                            class="bg-transparent text-[24px] text-[#A2A3A5] hover:text-[#1c3247] transition-[3s] hover:after:border-t-[#1D2740]  after:rounded-full hover:after:border-t after:w-full after:block after:ease-in-out"
+                            id="contact-options" value="contacts">Todos
+                            os Contatos</button>
+                    </div>
+                    <div id="contact-view" type="message" class="mt-[15px] h-[448px]">
+                        <div class="flex flex-col gap-[10px]">
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu Nome (obrigatório)</h1>
+                                <input type="text" name="name" id="name-contact" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu e-mail (obrigatório)</h1>
+                                <input type="text" name="name" id="email-contact" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Seu Endereço</h1>
+                                <input type="text" name="name" id="address-contact"
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[#A2A3A5]">Sua Mensagem (obrigatório)</h1>
+                                <textarea name="message" id="message-content" cols="10" rows="5" required
+                                    class="bg-[#10151C] w-full rounded-md text-[18px] text-[#A2A3A5] p-1 pr-2 pl-2"></textarea>
+                            </div>
+                            <div class="mt-[-8px] mb-[5px]">
+                                <button
+                                    class="bg-[#1C253D] active:bg-[#1C253D] hover:bg-[#212c48] text-[#9A9B9E] active:text-[#9A9B9E] hover:text-[#b7b8bb] transition-[1s] text-[20px] w-full p-1 rounded-md"
+                                    id="send-message" type="submit">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-[10px]">
+                <h1 class="text-[#A2A3A5] text-[30px] flex gap-[10px] items-center"><i
+                        class="fa-solid fa-calendar-days"></i>
+                    Agenda</h1>
+                <div class="bg-transparent border-[2px] border-[#1D2740] rounded-2xl p-3 pr-2 pl-2 w-full">
+                    <div class="overflow-auto overflow-x-hidden h-[500px] w-full rounded-xl flex flex-col gap-2">
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                        <div class="bg-[#11161F] w-[370px] h-[150px] rounded-xl p-2 pr-3 pl-3 cursor-pointer"
+                            id="agent-event" url="">
+                            <h1 class="text-[28px] mb-[-10px] font-medium">Titulo do Evento</h1>
+                            <p class="font-thin">Segunda - 25/02 as 12:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<footer class="mt-[100px]">
+    <hr class="border-[#1F2937] w-full">
+    <div class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] flex justify-between">
+        <div class="flex">
+            <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
+        </div>
+        <div class="flex gap-8">
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Pagína Inicial</a>
+                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Biografia</a>
+                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Notícias</a>
+                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Galeria</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Links importantes</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página ai</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a>
+                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>
