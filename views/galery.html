@@ -16,6 +16,20 @@
         importance="true">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function (v) {
+            $('[id^="image-view"]').click(function (v) {
+                var url = $(this).attr("src");
+                PopContent({
+                    element: `
+            <h1>Imagem não encontrada</h1>
+            `,
+                    classes: "flex justify-center items-center w-full h-full"
+                })
+                visibilityOrHiddenPop();
+            })
+        })
+    </script>
 </head>
 
 <body class="bg-[#0B0E13] font-sans text-white">
@@ -31,30 +45,33 @@
         </div>
     </div>
     <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
-        <div class="flex justify-between items-center center gap-[100px] pl-[20px] pr-[20px]">
-            <div class="flex">
-                <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
-            </div>
+        <div
+            class="flex justify-between items-center center gap-[100px] max-md:gap-[10px] pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
+                    <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+                </a>
+            </div>
+            <div class="flex max-lg:p-[40px]">
+                <a href="/" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Pagína
                         Inicial
                     </div>
                 </a>
-                <a href="/biography">
+                <a href="/biography" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Biografia</div>
                 </a>
-                <a href="/blog">
+                <a href="/blog" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Notícias
                     </div>
                 </a>
-                <a href="/galery">
+                <a href="/galery" class="max-lg:hidden">
                     <div
                         class="text-[#dedede] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Galeria
@@ -66,6 +83,8 @@
                     class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
                     id="login-user">
                     <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-lg:flex transition-[1s]"
+                    id="hav-bar"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
@@ -79,16 +98,137 @@
     </nav>
     <div class="h-[160px]"></div>
     <section class="flex flex-col gap-[40px]">
+        <div class="pr-[200px] pl-[200px] max-md:pr-[50px] max-md:pl-[50px] max-xl:pl-[100px] max-xl:pr-[100px]">
+            <div class="flex flex-col justify-center items-center">
+                <div
+                    class="grid grid-cols-4 max-md:grid-cols-2 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-[10px] justify-center items-center justify-items-center">
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
 
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                    <div class="bg-[#11161F] rounded-lg w-[300px] h-[170px] hover:scale-[1.03] transition-[1s] cursor-pointer"
+                        id="image-view">
+                        <div class="flex justify-center items-end w-full h-full p-2 -z-10 pointer-events-none"
+                            id="image-view-author">
+                            <h1>Pedro - Planalto</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
 <footer class="mt-[100px]">
     <hr class="border-[#1F2937] w-full">
-    <div class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] flex justify-between">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
         <div class="flex">
             <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
         </div>
-        <div class="flex gap-8">
+        <div class="flex gap-8 max-md:flex-col">
             <div class="w-[200px]">
                 <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
@@ -110,10 +250,12 @@
                 <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
                 <div class="flex flex-col">
-                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
-                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
-                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a>
-                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a>
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
                 </div>
             </div>
         </div>
