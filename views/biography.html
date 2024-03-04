@@ -70,10 +70,12 @@
                                 <h1 class="text-[#ffffff]">E-mail</h1>
                                 <span class="text-[#A2A3A5]">contato@gabrielmartins.com.br</span>
                             </div>
-                            <div>
+                            <div class="flex flex-col">
                                 <h1 class="text-[#ffffff]">Redes Sociais</h1>
-                                <span class="text-[#A2A3A5]"><i class="fab fa-instagram mr-[5px]" aria-label="Instagram"></i>
-                                    @gabrielmartinsvg</span>
+                                <a class="text-[#A2A3A5]" href="https://www.instagram.com/gabrielmartinsvg/"><i class="fab fa-instagram mr-[5px]" aria-label="Instagram"></i>
+                                    @gabrielmartinsvg</a>
+                                <a class="text-[#A2A3A5]" href="https://www.facebook.com/gabrielmartinsvg"><i class="fab fa-facebook mr-[5px]" aria-label="Facebook"></i>
+                                    @gabrielmartinsvg</a>
                             </div>
                         </div>
                     `)
@@ -105,30 +107,33 @@
         </div>
     </div>
     <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
-        <div class="flex justify-between items-center center gap-[100px] pl-[20px] pr-[20px]">
-            <div class="flex">
-                <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
-            </div>
+        <div
+            class="flex justify-between items-center center gap-[100px] max-md:gap-[10px] pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
+                    <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+                </a>
+            </div>
+            <div class="flex max-lg:p-[40px]">
+                <a href="/" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Pagína
                         Inicial
                     </div>
                 </a>
-                <a href="/biography">
+                <a href="/biography" class="max-lg:hidden">
                     <div
                         class="text-[#dedede] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Biografia</div>
                 </a>
-                <a href="/blog">
+                <a href="/blog" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Notícias
                     </div>
                 </a>
-                <a href="/galery">
+                <a href="/galery" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Galeria
@@ -140,6 +145,8 @@
                     class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
                     id="login-user">
                     <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-lg:flex transition-[1s]"
+                    id="hav-bar"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
@@ -153,7 +160,8 @@
     </nav>
     <div class="h-[160px]"></div>
     <section class="flex flex-col gap-[40px]">
-        <div class="flex flex-col items-center justify-center w-full pr-[300px] pl-[300px]">
+        <div
+            class="flex flex-col items-center justify-center w-full pr-[300px] pl-[300px] max-md:pr-[100px] max-md:pl-[100px]">
             <div class="bg-[#13171F] w-full h-[350px] rounded-lg" id="img-bio"></div>
             <div class="bg-[#0B0E13] rounded-full w-[150px] h-[150px] mt-[-70px]"></div>
             <div class="bg-[#13171F] rounded-full w-[130px] h-[130px] mt-[-140px]"></div>
@@ -256,11 +264,12 @@
 </body>
 <footer class="mt-[100px]">
     <hr class="border-[#1F2937] w-full">
-    <div class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] flex justify-between">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
         <div class="flex">
             <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
         </div>
-        <div class="flex gap-8">
+        <div class="flex gap-8 max-md:flex-col">
             <div class="w-[200px]">
                 <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
@@ -282,10 +291,12 @@
                 <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
                 <div class="flex flex-col">
-                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
-                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
-                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a>
-                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a>
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
                 </div>
             </div>
         </div>
