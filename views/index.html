@@ -16,6 +16,27 @@
         importance="true">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function (v) {
+            $('[class^="image-pointer-select"]').click(function (e) {
+                $('[class^="image-pointer-select"]').removeClass("bg-[#909090]");
+                $('[class^="image-pointer-select"]').addClass("bg-[#3F3F3F]");
+                $(this).addClass("bg-[#909090]");
+            });
+
+            $('[id^="video-view"]').click(function (e) {
+                var url = $(this).attr("url");
+                PopContent({
+                    element: `
+            <h1>Video não contrado...</h1>
+            `,
+                    classes: "flex justify-center items-center w-full h-full"
+                })
+                visibilityOrHiddenPop();
+                console.log(url);
+            })
+        })
+    </script>
 </head>
 
 <body class="bg-[#0B0E13] font-sans text-white">
@@ -31,30 +52,33 @@
         </div>
     </div>
     <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
-        <div class="flex justify-between items-center center gap-[100px] pl-[20px] pr-[20px] transition-[1s]">
-            <div class="flex">
-                <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
-            </div>
+        <div
+            class="flex justify-between items-center center gap-[100px] max-md:gap-[10px] pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
+                    <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+                </a>
+            </div>
+            <div class="flex max-lg:p-[40px]">
+                <a href="/" class="max-lg:hidden">
                     <div
                         class="text-[#dedede] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Pagína
                         Inicial
                     </div>
                 </a>
-                <a href="/biography">
+                <a href="/biography" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Biografia</div>
                 </a>
-                <a href="/blog">
+                <a href="/blog" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Notícias
                     </div>
                 </a>
-                <a href="/galery">
+                <a href="/galery" class="max-lg:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Galeria
@@ -66,6 +90,8 @@
                     class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
                     id="login-user">
                     <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-lg:flex transition-[1s]"
+                    id="hav-bar"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
@@ -79,7 +105,8 @@
     </nav>
     <div class="h-[160px]"></div>
     <section class="flex flex-col gap-[40px]">
-        <div class="pr-[300px] pl-[300px]" id="images-root">
+        <div class="pr-[300px] pl-[300px] max-md:pr-[50px] max-md:pl-[50px] max-2xl:pr-[150px] max-2xl:pl-[150px]"
+            id="images-root">
             <div class="bg-[#13171F] h-[700px] rounded-xl"></div>
             <div class="flex gap-[15px] justify-center mt-[-25px]  transition-[1s]">
                 <div class="image-pointer-select bg-[#909090] w-[10px] h-[10px] rounded-full cursor-pointer  transition-[1s]"
@@ -90,7 +117,8 @@
                     id="image-root-3"></div>
             </div>
         </div>
-        <div class="flex justify-between pr-[300px] pl-[300px]">
+        <!-- <div
+            class="flex justify-between pr-[300px] pl-[300px] max-md:pr-[50px] max-md:pl-[50px] max-md:flex-col max-md:gap-2">
             <div class="bg-[#13171F] rounded-lg p-5 hover:scale-[1.03] transition-[1s]">
                 <h1 class="text-white text-[25px] font-semibold flex items-center gap-[8px]"><i
                         class="fa-regular fa-shield text-[30px] text-[#0044C8]"></i>
@@ -112,16 +140,17 @@
                     transporte acessível e eficiente, promovendo mobilidade urbana e
                     inclusão social.</p>
             </div>
-        </div>
-        <div class="pr-[300px] pl-[300px]">
-            <div class="bg-[#13171F] p-5 pl-[30px] pr-[30px] rounded-xl flex justify-between">
+        </div> -->
+        <div class="pr-[300px] pl-[300px] max-md:pr-[50px] max-md:pl-[50px] max-2xl:pr-[150px] max-2xl:pl-[150px]">
+            <div
+                class="bg-[#13171F] p-5 pl-[30px] pr-[30px] rounded-xl flex justify-between max-md:flex-col max-xl:flex-col max-md:gap-5">
                 <div>
                     <h1 class="flex gap-[10px] text-[25px] font-semibold text-white items-center"><i
                             class="fa-solid fa-newspaper"></i>Últimas
                         notícias
                     </h1>
                     <div class="mt-[10px] flex flex-col gap-2">
-                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px]">
+                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px] max-md:justify-center">
                             <div class="w-[350px] gap-2 flex flex-col">
                                 <h1 class="text-[24px] font-semibold">Titulo da notícia recente aqui ou
                                     descrição,
@@ -162,11 +191,11 @@
                             </div>
                             <div>
                                 <div
-                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s]">
+                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s] max-md:w-0">
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px]">
+                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px] max-md:justify-center">
                             <div class="w-[350px] gap-2 flex flex-col">
                                 <h1 class="text-[24px] font-semibold">Titulo da notícia recente aqui ou
                                     descrição,
@@ -207,11 +236,11 @@
                             </div>
                             <div>
                                 <div
-                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s]">
+                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s] max-md:w-0">
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px]">
+                        <div class="bg-[#19202C] p-5 rounded-xl flex gap-[15px] max-md:justify-center">
                             <div class="w-[350px] gap-2 flex flex-col">
                                 <h1 class="text-[24px] font-semibold">Titulo da notícia recente aqui ou
                                     descrição,
@@ -252,7 +281,7 @@
                             </div>
                             <div>
                                 <div
-                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s]">
+                                    class="bg-[#11161F] rounded-lg w-[250px] h-full hover:scale-[1.05] transition-[1s] max-md:w-0">
                                 </div>
                             </div>
                         </div>
@@ -276,7 +305,7 @@
                             url="https://youtube.com/" id="video-view">
                             <div class="bg-[#19202C] rounded-xl">
                                 <div>
-                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-[250px] rounded-b-[0px]">
+                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-full rounded-b-[0px]">
                                     </div>
                                 </div>
                                 <div class="p-3 pt-1 flex gap-[150px] h-[165px]">
@@ -288,7 +317,7 @@
                             url="https://youtube.com/" id="video-view">
                             <div class="bg-[#19202C] rounded-xl">
                                 <div>
-                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-[250px] rounded-b-[0px]">
+                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-full rounded-b-[0px]">
                                     </div>
                                 </div>
                                 <div class="p-3 pt-1 flex gap-[150px] h-[165px]">
@@ -300,7 +329,7 @@
                             url="https://youtube.com/" id="video-view">
                             <div class="bg-[#19202C] rounded-xl">
                                 <div>
-                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-[250px] rounded-b-[0px]">
+                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-full rounded-b-[0px]">
                                     </div>
                                 </div>
                                 <div class="p-3 pt-1 flex gap-[150px] h-[165px]">
@@ -312,7 +341,7 @@
                             url="https://youtube.com/" id="video-view">
                             <div class="bg-[#19202C] rounded-xl">
                                 <div>
-                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-[250px] rounded-b-[0px]">
+                                    <div class="bg-[#11161F] rounded-xl h-[142px] w-full rounded-b-[0px]">
                                     </div>
                                 </div>
                                 <div class="p-3 pt-1 flex gap-[150px] h-[165px]">
@@ -328,11 +357,12 @@
 </body>
 <footer class="mt-[100px]">
     <hr class="border-[#1F2937] w-full">
-    <div class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] flex justify-between">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
         <div class="flex">
             <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
         </div>
-        <div class="flex gap-8">
+        <div class="flex gap-8 max-md:flex-col">
             <div class="w-[200px]">
                 <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
@@ -354,10 +384,12 @@
                 <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
                 <div class="flex flex-col">
-                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
-                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
-                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a>
-                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a>
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
                 </div>
             </div>
         </div>
