@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+#image-view #image-view-author {
+    transition: 0.3s;
+    opacity: 0;
+}
+
+#image-view:hover #image-view-author {
+    opacity: 1;
+}
+
 ::-webkit-scrollbar {
     height: 15px;
     width: 15px;
