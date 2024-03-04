@@ -1,6 +1,6 @@
 {
   "name": "gabrielport",
-  "version": "1.0.0",
+  "version": "1.2.31",
   "description": "Portfolio do Gabriel.",
   "main": "server.js",
   "scripts": {
