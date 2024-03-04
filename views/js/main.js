@@ -1,22 +1,4 @@
 $(document).ready(function (event) {
-    $('[class^="image-pointer-select"]').click(function (e) {
-        $('[class^="image-pointer-select"]').removeClass("bg-[#909090]");
-        $('[class^="image-pointer-select"]').addClass("bg-[#3F3F3F]");
-        $(this).addClass("bg-[#909090]");
-    });
-
-    $('[id^="video-view"]').click(function (e) {
-        var url = $(this).attr("url");
-        PopContent({
-            element: `
-            <h1>Video não contrado...</h1>
-            `,
-            classes: "flex justify-center items-center w-full h-full"
-        })
-        visibilityOrHiddenPop();
-        console.log(url);
-    })
-
     $("#view-pop-close").click(function (event) {
         $("#view-pop").addClass("opacity-0")
         setTimeout(() => {
