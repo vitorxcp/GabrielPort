@@ -19,6 +19,10 @@ app.get("/galery", function (req, res) {
     res.render("galery.html")
 })
 
+app.get("/textest", function (req, res) {
+    res.render("textecss.html")
+})
+
 app.use(express.static('views'));
 
 app.get("*", function (req, res) {
