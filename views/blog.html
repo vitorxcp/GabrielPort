@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagína Inicial - Gabriel Felipe Martins</title>
+    <title>Notícias - Gabriel Felipe Martins</title>
     <link rel="stylesheet" href="/css/style.css" importance="true">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         importance="true">
@@ -14,12 +14,13 @@
         importance="true">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
         importance="true">
+    <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/main.js"></script>
     <script>
         $(document).ready(function (v) {
             $('[id^="category-filter"]').click(function (v) {
-                $('[id^="category-filter"]').removeClass("bg-[#232D45] text-[#D6D2D2]").addClass("bg-[#141A29] text-[#3B4B74]")
+                $('[id^="category-filter"]').removeClass("bg-[#232D45] text-[#D6D2D2]").addClass("bg-[#141A29] text-[#3B4B74] hover:bg-[#1d253b] hover:text-[#5d76b3]")
                 $(this).addClass("bg-[#232D45] text-[#D6D2D2]").removeClass("bg-[#141A29] text-[#3B4B74] hover:text-[#5d76b3] hover:bg-[#1d253b]")
             })
         })
@@ -38,34 +39,33 @@
             </div>
         </div>
     </div>
-    <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
-        <div
-            class="flex justify-between items-center center gap-[100px] max-md:gap-[10px] pl-[20px] pr-[20px] transition-[1s]">
+    <nav class="bg-[rgb(17,21,29)] fixed w-full z-10">
+        <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
                     <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
                 </a>
             </div>
-            <div class="flex max-lg:p-[40px]">
-                <a href="/" class="max-lg:hidden">
+            <div class="flex max-[800px]:p-[40px] max-[800px]:pr-[10px] max-[800px]:pl-[10px]">
+                <a href="/" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Pagína
                         Inicial
                     </div>
                 </a>
-                <a href="/biography" class="max-lg:hidden">
+                <a href="/biography" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Biografia</div>
                 </a>
-                <a href="/blog" class="max-lg:hidden">
+                <a href="/blog" class="max-[800px]:hidden">
                     <div
                         class="text-[#dedede] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Notícias
                     </div>
                 </a>
-                <a href="/galery" class="max-lg:hidden">
+                <a href="/galery" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Galeria
@@ -77,27 +77,46 @@
                     class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
                     id="login-user">
                     <i class="fa-solid fa-right-from-bracket"></i> Login</button>
-                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-lg:flex transition-[1s]"
-                    id="hav-bar"><i class="fa-solid fa-bars"></i></div>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[800px]:flex transition-[1s]"
+                    id="open-bars"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
-            <div class="bg-[#342B10] w-full h-[25px] flex justify-center" id="color-warn-bar">
-                <span class="text-[#8D8879] self-center" id=" text-warn-bar">Site em construção, varios sistemas
+            <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
+                    sistemas
                     podem não
                     funcionar
                     corretamente.</span>
             </div>
         </div>
+        <div class="absolute translate-x-full top-0 z-30 hidden flex-col items-end w-full h-[100vh] pr-8 pt-3 rounded-lg bg-[#0b0e13] duration-300 transition-transform"
+            id="mobile-view">
+            <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[14px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                    id="close-bars">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/">Página Inicial</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/biography">Biografia</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end underline"
+                    href="/blog">Notícias</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/galery">Galeria</a>
+            </div>
+        </div>
     </nav>
     <div class="h-[160px]"></div>
     <section class="flex flex-col gap-[40px]">
-        <div class="pr-[300px] pl-[300px]">
-            <div class="bg-[#13171F] w-full h-[500px] rounded-2xl cursor-pointer"
+        <div
+            class="pr-[300px] pl-[300px] max-md:pr-[20px] max-md:pl-[20px] max-2xl:pr-[150px] max-2xl:pl-[150px] max-sm:pr-[10px] max-sm:pl-[10px]">
+            <div class="bg-[#13171F] w-full h-[500px] max-sm:h-[400px] rounded-2xl cursor-pointer"
                 onclick="PopContent({element: `<h1>Elemento sem caminho...</h1>`,classes: 'flex justify-center items-center w-full h-full'});visibilityOrHiddenPop()">
             </div>
         </div>
-        <div class="flex justify-center items-center">
+        <div class="flex items-center justify-center">
             <div class="bg-transparent border border-[#1D2740] rounded-full flex justify-between">
                 <input type="search" id="search-content"
                     class="bg-transparent text-[20px] p-1 pr-3 pl-3 border-0 focus:outline-none placeholder-[#1D2740] text-[#495d8f]"
@@ -108,7 +127,7 @@
                 </button>
             </div>
         </div>
-        <div class="flex justify-center items-center gap-2" id="categorys">
+        <div class="flex items-center justify-center gap-2" id="categorys">
             <div class="bg-[#232D45] text-[#D6D2D2] transition-[1s] p-1 pr-3 pl-3 rounded-lg cursor-pointer" value="all"
                 id="category-filter">Todas as
                 Notícias</div>
@@ -118,15 +137,16 @@
             <div class="bg-[#141A29] hover:bg-[#1d253b] text-[#3B4B74] hover:text-[#5d76b3] transition-[1s] p-1 pr-3 pl-3 rounded-lg cursor-pointer"
                 value="public-hearing" id="category-filter">Audiência Pública</div>
         </div>
-        <div class="flex justify-center items-center flex-col gap-2" id="posts">
+        <div class="flex flex-col items-center justify-center gap-2" id="posts">
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -160,12 +180,13 @@
             </a>
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -199,12 +220,13 @@
             </a>
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -238,12 +260,13 @@
             </a>
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -277,12 +300,13 @@
             </a>
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -316,12 +340,93 @@
             </a>
             <a href="/blog/amo-noticia-quente">
                 <div
-                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer gap-[20px]">
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
                     <div>
-                        <div class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s]">
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
                         </div>
                     </div>
-                    <div class="flex flex-col w-[500px] gap-[5px]">
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
+                        <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
+                        <p class="text-[18px]">Descrição da notícia aqui...</p>
+                        <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Live</span>
+                                </div>
+                            </a>
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Cozinha</span>
+                                </div>
+                            </a>
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Peneu</span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- <span class="text-[15px] text-[#686A6D]">Publicado há 10 minutos - Editado há 1 minuto</span> -->
+                        <a href="/blog/amo-noticia-quente" class="w-full">
+                            <button
+                                class="w-full p-1 bg-[#1D2740] hover:bg-[#202944] rounded-lg text-[20px] text-[#88A2D4] hover:text-[#87b1ff] transition-[1s]">Acessar
+                                Notícia</button>
+                        </a>
+                    </div>
+                </div>
+            </a>
+            <a href="/blog/amo-noticia-quente">
+                <div
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
+                    <div>
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
+                        <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
+                        <p class="text-[18px]">Descrição da notícia aqui...</p>
+                        <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Live</span>
+                                </div>
+                            </a>
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Cozinha</span>
+                                </div>
+                            </a>
+                            <a href="/blog?category=Live" class="text-[#78889F] hover:text-[#4c7ec3]">
+                                <div
+                                    class="bg-transparent border-[2px] border-[#272E38] hover:border-[#2a405f] rounded-2xl p-0 pl-3 pr-3">
+                                    <span>Peneu</span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- <span class="text-[15px] text-[#686A6D]">Publicado há 10 minutos - Editado há 1 minuto</span> -->
+                        <a href="/blog/amo-noticia-quente" class="w-full">
+                            <button
+                                class="w-full p-1 bg-[#1D2740] hover:bg-[#202944] rounded-lg text-[20px] text-[#88A2D4] hover:text-[#87b1ff] transition-[1s]">Acessar
+                                Notícia</button>
+                        </a>
+                    </div>
+                </div>
+            </a>
+            <a href="/blog/amo-noticia-quente">
+                <div
+                    class="bg-transparent border border-[#1D2740] rounded-2xl p-4 pr-5 pl-5 flex justify-between items-center cursor-pointer max-md:gap-0 gap-[20px]">
+                    <div>
+                        <div
+                            class="bg-[#13171F] rounded-lg w-[300px] h-[160px] hover:scale-[1.05] transition-[1s] block max-md:hidden">
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-[500px] max-sm:w-[400px] max-[500px]:w-[350px] gap-[5px]">
                         <h1 class="font-semibold text-[30px]">Título da notícia aqui...</h1>
                         <p class="text-[18px]">Descrição da notícia aqui...</p>
                         <div class="flex gap-[5px] ml-[-5px] mb-[5px]">
@@ -396,4 +501,5 @@
         </div>
     </div>
 </footer>
+
 </html>
