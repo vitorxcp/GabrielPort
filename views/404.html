@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagína Inicial - Gabriel Felipe Martins</title>
+    <title>Error 404 - Gabriel Felipe Martins</title>
     <link rel="stylesheet" href="/css/style.css" importance="true">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         importance="true">
@@ -14,8 +14,9 @@
         importance="true">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
         importance="true">
+    <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="js/main.js" importance="true"></script>
+    <script src="/js/main.js" importance="true"></script>
 </head>
 
 <body class="bg-[#0B0E13] font-sans text-white">
@@ -30,34 +31,33 @@
             </div>
         </div>
     </div>
-    <nav class="bg-[rgb(17,21,29)] fixed w-full h-[80px] justify-center items-center z-10">
-        <div
-            class="flex justify-between items-center center gap-[100px] max-md:gap-[10px] pl-[20px] pr-[20px] transition-[1s]">
+    <nav class="bg-[rgb(17,21,29)] fixed w-full z-10">
+        <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
                     <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
                 </a>
             </div>
-            <div class="flex max-lg:p-[40px]">
-                <a href="/" class="max-lg:hidden">
+            <div class="flex max-[800px]:p-[40px] max-[800px]:pr-[10px] max-[800px]:pl-[10px]">
+                <a href="/" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Pagína
                         Inicial
                     </div>
                 </a>
-                <a href="/biography" class="max-lg:hidden">
+                <a href="/biography" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Biografia</div>
                 </a>
-                <a href="/blog" class="max-lg:hidden">
+                <a href="/blog" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Notícias
                     </div>
                 </a>
-                <a href="/galery" class="max-lg:hidden">
+                <a href="/galery" class="max-[800px]:hidden">
                     <div
                         class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
                         Galeria
@@ -69,16 +69,34 @@
                     class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
                     id="login-user">
                     <i class="fa-solid fa-right-from-bracket"></i> Login</button>
-                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-lg:flex transition-[1s]"
-                    id="hav-bar"><i class="fa-solid fa-bars"></i></div>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[800px]:flex transition-[1s]"
+                    id="open-bars"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
-            <div class="bg-[#342B10] w-full h-[25px] flex justify-center" id="color-warn-bar">
-                <span class="text-[#8D8879] self-center" id=" text-warn-bar">Site em construção, varios sistemas
+            <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
+                    sistemas
                     podem não
                     funcionar
                     corretamente.</span>
+            </div>
+        </div>
+        <div class="absolute translate-x-full top-0 z-30 hidden flex-col items-end w-full h-[100vh] pr-8 pt-3 rounded-lg bg-[#0b0e13] duration-300 transition-transform"
+            id="mobile-view">
+            <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[14px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                    id="close-bars">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/">Página Inicial</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/biography">Biografia</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/blog">Notícias</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/galery">Galeria</a>
             </div>
         </div>
     </nav>
@@ -86,17 +104,23 @@
     <section class="flex flex-col gap-[40px]">
         <div class="pr-[300px] pl-[300px] max-md:pr-[100px] max-md:pl-[100px] flex justify-center items-center">
             <div
-                class="bg-[#11161F] rounded-3xl flex flex-col justify-center items-center w-max p-10 pt-16 pr-16 pl-16 gap-[26px]">
+                class="bg-[#11161F] rounded-3xl flex flex-col justify-center items-center w-max p-10 pt-16 pr-16 pl-16 max-sm:pr-6 max-sm:pl-6 max-[560px]:pr-4 max-[560px]:pl-4 max-[520px]:pr-2 max-[520px]:pl-2 gap-[26px]">
                 <span
                     class="absolute uppercase p-1 pr-5 pl-5 pb-0 top-[148px] bg-[#004785] rounded-2xl font-semibold">Página
                     não
                     encontrada</span>
-                <h1 class="text-[#235fa7]"><i class="fa-solid fa-4 fa-10x"></i> <i class="fa-solid fa-0
-                     fa-10x"></i> <i class="fa-solid fa-4 fa-10x"></i></h1>
-                <h2 class="font-bold text-[36px] text-[#5f9eea] text-center w-[600px] max-md:w-[500px]">Oops! Essa
+                <h1 class="text-[#235fa7]"><i class="fa-solid fa-4 fa-10x"></i> <i class="fa-solid fa-0 fa-10x"></i> <i
+                        class="fa-solid fa-4 fa-10x"></i></h1>
+                <h2
+                    class="font-bold text-[36px] text-[#5f9eea] text-center w-[600px] max-md:w-[500px] max-[560px]:w-[450px]">
+                    Oops! Essa
                     página não foi encontrada!
                 </h2>
-                <p class="w-[600px] max-md:w-[500px] text-center text-[20px]">Parece que nos perdemos por aqui. A página
+                <p
+                    class="w-[600px] max-md:w-[500px] text-center text-[20px] max-[560px]:w-[450px] max-[520px]:w-[400px]">
+                    Parece que nos
+                    perdemos por
+                    aqui. A página
                     que você está
                     procurando não foi encontrada. Talvez tenha
                     sido removida,
