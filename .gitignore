@@ -1,6 +1,15 @@
+# Não queremos que fique pessado na hora de enviar para o git né, então vamo tirar coisas que não tem o por que esta nele...
+
+#node - arquivos do nodeJs que nem tem o por que está no git...
 package-lock.json
-package.json
 node_modules
-squarecloud.app
+
+#coisas do back-end que em mãos erradas pode matar o site (brinks, e coisas da host ;3)
+*.app
 *.zip
+
+#teste, tem nem o por que esta no git...
 views/textecss.html
+
+#dados do banco de dados (🎲)
+database/config.js
