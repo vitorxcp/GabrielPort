@@ -13,6 +13,7 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 const { pagesRedirect } = require("./modules/pages/router");
 const { apiRouter } = require("./modules/api/router");
+const LocalStrategy = require('passport-local').Strategy;
 const FirebaseStore = require('connect-session-firebase')(session);
 
 configDatabase()
@@ -21,6 +22,18 @@ configDatabase()
         app.engine("html", require("ejs").renderFile)
 
         app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(session({
+            expiresIn: 31536000,
+            expires: 31536000,
+            secret: 'youshallnotpass',
+            resave: true,
+            saveUninitialized: true,
+            cookie: {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                secure: false,
+                httpOnly: true,
+            },
+        }));
         app.use(passport.initialize());
         app.use(passport.session());
 
@@ -44,7 +57,7 @@ configDatabase()
             done(null, user);
         });
 
-        app.use("/api", apiRouter(db, Pudding));
+        app.use("/api", apiRouter(db, Pudding, {passport}));
         app.use("/", pagesRedirect(db));
 
         app.listen(80, () => {
