@@ -16,6 +16,7 @@
  */
 
 const bcrypt = require('bcrypt');
+const ConfigProject = require('../config');
 
 module.exports.configDatabase = () => {
     return new Promise((resolve, reject) => {
@@ -24,7 +25,14 @@ module.exports.configDatabase = () => {
         const { getDatabase } = require("firebase/database"); // Importar o módulo do banco de dados
 
         const firebaseConfig = {
-            //algo aq ;3
+            apiKey: ConfigProject.database.apiKey,
+            authDomain: ConfigProject.database.authDomain,
+            databaseURL: ConfigProject.database.databaseURL,
+            projectId: ConfigProject.database.projectId,
+            storageBucket: ConfigProject.database.storageBucket,
+            messagingSenderId: ConfigProject.database.messagingSenderId,
+            appId: ConfigProject.database.appId,
+            measurementId: ConfigProject.database.measurementId
         };
 
         // Inicializar o Firebase
