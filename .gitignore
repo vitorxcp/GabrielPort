@@ -8,8 +8,8 @@ node_modules
 *.app
 *.zip
 
-#teste, tem nem o por que esta no git...
-views/textecss.html
+#teste, tem nem o por que esta no git... (agr ta pq e legal)
+# views/textecss.html
 
 #dados do banco de dados (🎲)
 # database/config.js
