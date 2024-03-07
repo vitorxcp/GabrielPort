@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Gabriel Felipe Martins</title>
+    <link rel="stylesheet" href="/css/style.css" importance="true">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/ds99fda34ef21f020f54.css"
+        importance="true">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
+        importance="true">
+    <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
+    <script src="/js/main.js" importance="true"></script>
+</head>
+
+<body class="bg-[#0B0E13] font-sans text-white">
+    <div class="hidden bg-[rgb(0,0,0,0.46)] w-full h-full justify-center items-center z-20 fixed transition-[1s] tr"
+        id="view-pop">
+        <div class="bg-[#13171F] rounded-md p-2 w-[350px] h-[150px] flex flex-col" id="view-pop-display">
+            <div id="view-pop-content"></div>
+            <div class="absolute flex justify-end" style="width: inherit; margin-left: -15px;">
+                <button id="view-pop-close">
+                    <i class="text-xl text-red-500 fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="fixed z-30 flex flex-col items-center justify-end w-full h-full gap-1 p-4 transition bg-transparent pointer-events-none"
+        id="notification-view"></div>
+    <nav class="bg-[rgb(17,21,29)] fixed w-full z-10">
+        <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
+            <div class="flex">
+                <a href="/">
+                    <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+                </a>
+            </div>
+            <div class="flex max-[800px]:p-[40px] max-[800px]:pr-[10px] max-[800px]:pl-[10px]">
+                <a href="/" class="max-[800px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Pagína
+                        Inicial
+                    </div>
+                </a>
+                <a href="/biography" class="max-[800px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Biografia</div>
+                </a>
+                <a href="/blog" class="max-[800px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Notícias
+                    </div>
+                </a>
+                <a href="/galery" class="max-[800px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Galeria
+                    </div>
+                </a>
+            </div>
+            <div class="flex">
+                <button
+                    class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                    id="login-user">
+                    <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[800px]:flex transition-[1s]"
+                    id="open-bars"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+        <div id="warn-bar">
+            <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
+                    sistemas
+                    podem não
+                    funcionar
+                    corretamente.</span>
+            </div>
+        </div>
+        <div class="absolute translate-x-full top-0 z-30 hidden flex-col items-end w-full h-[100vh] pr-8 pt-3 rounded-lg bg-[#0b0e13] duration-300 transition-transform"
+            id="mobile-view">
+            <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[14px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                    id="close-bars">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/">Página Inicial</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/biography">Biografia</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/blog">Notícias</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/galery">Galeria</a>
+            </div>
+        </div>
+    </nav>
+    <div class="h-[160px]"></div>
+    <section class="flex flex-col gap-[40px]">
+        <div class="flex items-center justify-center">
+            <div class="bg-[#13171F] rounded-md w-[400px] p-2 flex flex-col">
+                <div class="flex flex-col justify-center p-5" id="view-pop-content">
+                    <h1 class="font-medium uppercase text-[40px] font-['Heavitas'] mt-[10px] mb-[20px] text-center">
+                        Recuperação
+                    </h1>
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            E-mail</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="email" name="email" id="login-email">
+                    </div>
+                    <button
+                        class="flex justify-center items-center bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[30px]"
+                        id="login-send"><span
+                            class="flex rounded-full loader w-[30px] h-[30px] before:border-[3px]"></span></button>
+                    <div class="mb-[10px] mt-[5px] flex justify-between">
+                        <button class="text-[#005C9F] group flex items-center gap-[5px]" id="login-user"
+                            onclick="loginView();">Lembrei a senha<i
+                                class="transition fa-solid fa-arrow-right group-hover:translate-x-1"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<footer class="mt-[100px]">
+    <hr class="border-[#1F2937] w-full">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
+        <div class="flex">
+            <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
+        </div>
+        <div class="flex gap-8 max-md:flex-col">
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Pagína Inicial</a>
+                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Biografia</a>
+                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Notícias</a>
+                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Galeria</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Links importantes</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página ai</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>
