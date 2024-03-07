@@ -13,4 +13,6 @@ views/textecss.html
 
 #dados do banco de dados (🎲)
 # database/config.js
+
+#configurações em geral do projeto (se vazar deus sabe oq vai acontecer)
 config.js
