@@ -2,6 +2,7 @@
  * @typedef {Object} Pudding
  * @property {function} verifyEmailExist - Método para verificar se um e-mail existe no banco de dados
  * @property {function} registerAccount - Método para registrar uma nova conta no banco de dados
+ * @property {function} authenticateUser - Método para autenticar no sistema no banco de dados
  */
 
 /**
@@ -42,12 +43,16 @@ module.exports.configDatabase = () => {
 
         class Pudding {
             static verifyEmailExist = async (email) => {
+                email = String(email).replaceAll(".", "_");
+
                 const data = await db.ref(`auth/accounts/${email}`).once("value");
                 return data.val() ? true : false;
             }
 
             static registerAccount = async (name, email, password) => {
                 try {
+                    email = String(email).replaceAll(".", "_");
+
                     const hashedPassword = await bcrypt.hash(password, 10);
                     await db.ref(`auth/accounts/${email}`).set({
                         name,
@@ -57,6 +62,23 @@ module.exports.configDatabase = () => {
                 } catch (error) {
                     console.error(error);
                     return false;
+                }
+            };
+
+            static authenticateUser = async (email, password) => {
+                try {
+                    email = String(email).replaceAll(".", "_");
+
+                    // Recupere a senha criptografada do banco de dados para o usuário com base no e-mail fornecido
+                    const data = await db.ref(`auth/accounts/${email}`).once('value');
+                    const userData = data.val();
+
+                    // Verifique se o usuário existe e se a senha está correta
+                    if (userData && await bcrypt.compare(password, userData.password)) return true;
+                    else return false;
+                } catch (error) {
+                    console.error('Erro ao autenticar usuário:', error);
+                    return false; // Autenticação falhou
                 }
             };
         }
