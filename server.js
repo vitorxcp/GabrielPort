@@ -1,37 +1,55 @@
 const express = require("express");
 const { configDatabase } = require("./database/config");
 const app = express();
+const http = require('http');
+const socketIO = require('socket.io');
+const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+const cors = require('cors');
+const admin = require('firebase-admin');
+const { pagesRedirect } = require("./modules/pages/router");
+const { apiRouter } = require("./modules/api/router");
+const FirebaseStore = require('connect-session-firebase')(session);
 
-configDatabase().then(async (db) => {
-    app.engine("html", require("ejs").renderFile)
+configDatabase()
+    .then(async ({ db, Pudding }) => {
 
-    app.get("/", function (req, res) {
-        res.render("index.html")
+        app.engine("html", require("ejs").renderFile)
+
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(passport.initialize());
+        app.use(passport.session());
+
+        passport.use(new LocalStrategy({
+            emailField: 'email',
+            passwordField: 'password'
+        }, (email, password, done) => {
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) {
+                return done(null, false, { message: 'Credenciais inválidas' });
+            }
+            return done(null, user);
+        }));
+
+        passport.serializeUser((user, done) => {
+            done(null, user.email);
+        });
+
+        passport.deserializeUser((email, done) => {
+            const user = users.find(u => u.email === email);
+            done(null, user);
+        });
+
+        app.use("/api", apiRouter(db, Pudding));
+        app.use("/", pagesRedirect(db));
+
+        app.listen(80, () => {
+            console.log("Site online, sistemas funcionando!")
+        });
+    }).catch(err => {
+        console.log(err)
     })
-
-    app.get("/biography", function (req, res) {
-        res.render("biography.html")
-    })
-
-    app.get("/blog", function (req, res) {
-        res.render("blog.html")
-    })
-
-    app.get("/galery", function (req, res) {
-        res.render("galery.html")
-    })
-
-    app.get("/textest", function (req, res) {
-        res.render("textecss.html")
-    })
-
-    app.use(express.static('views'));
-
-    app.get("*", function (req, res) {
-        res.render("404.html")
-    })
-
-    app.listen(80, () => { console.log("Site Online!") });
-}).catch(err => {
-    console.log(err)
-})
