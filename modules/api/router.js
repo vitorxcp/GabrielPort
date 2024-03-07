@@ -1,3 +1,5 @@
+// Sistema sendo feito, pode apresentar erros ou bugs caso usem...
+
 /**
  * @typedef {Object} Database
  * @property {any} db - Objeto do banco de dados Firebase
