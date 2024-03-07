@@ -3,6 +3,7 @@ module.exports.pagesRedirect = (db, pudding) => {
     const app = express.Router();
 
     app.get("/", function (req, res) {
+        console.log(req.user)
         res.render("index.html")
     })
 
