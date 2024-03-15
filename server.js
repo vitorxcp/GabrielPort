@@ -14,50 +14,91 @@ const admin = require('firebase-admin');
 const { pagesRedirect } = require("./modules/pages/router");
 const { apiRouter } = require("./modules/api/router");
 const LocalStrategy = require('passport-local').Strategy;
-const FirebaseStore = require('connect-session-firebase')(session);
+const FirestoreStore = require('connect-session-firebase')(session);
+const jwt = require('jsonwebtoken');
 
 configDatabase()
-    .then(async ({ db, Pudding }) => {
+    .then(async ({ db, Pudding, credentialAdmin }) => {
+        const customTokenConfig = {
+            expiresIn: 31536000,
+            expires: 31536000,
+        };
 
-        app.engine("html", require("ejs").renderFile)
+        admin.initializeApp({
+            credential: admin.credential.cert(credentialAdmin),
+        });
 
-        app.use(bodyParser.urlencoded({ extended: true }));
+        // Obtém uma referência para o Firestore do Firebase
+
+        app.engine('html', require('ejs').renderFile);
+        app.engine('scss', require('ejs').renderFile);
+        app.engine('css', require('ejs').renderFile);
+        app.engine('js', require('ejs').renderFile);
+
+        app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(bodyParser.json());
         app.use(session({
             expiresIn: 31536000,
             expires: 31536000,
+            store: new FirestoreStore({
+                database: admin.database(),
+                collection: 'sessions',
+            }),
             secret: 'youshallnotpass',
             resave: true,
             saveUninitialized: true,
             cookie: {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
+                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dias em milissegundos
                 secure: false,
                 httpOnly: true,
             },
         }));
-        app.use(passport.initialize());
-        app.use(passport.session());
+
+        app.use(cors());
+        app.use(cookieParser());
+        app.use(flash());
+        app.use((req, res, next) => {
+            if (req.cookies.authToken) {
+            }
+
+            next();
+        });
 
         passport.use(new LocalStrategy({
-            emailField: 'email',
+            usernameField: 'email',
             passwordField: 'password'
-        }, (email, password, done) => {
-            const user = users.find(u => u.email === email && u.password === password);
-            if (!user) {
-                return done(null, false, { message: 'Credenciais inválidas' });
+        }, async (email, password, done) => {
+            try {
+                const user = await Pudding.getAccount(email);
+                if (!user) {
+                    return done(null, false, { message: 'Este email não existe...' });
+                } else {
+                    var verified = await Pudding.authenticateUser(email, password);
+                    if (verified) {
+                        return done(null, user);
+                    } else {
+                        return done(null, false, { message: 'Senha incorreta!' });
+                    }
+                }
+            } catch (error) {
+                return done(error);
             }
-            return done(null, user);
         }));
+
+
 
         passport.serializeUser((user, done) => {
             done(null, user.email);
         });
 
-        passport.deserializeUser((email, done) => {
-            const user = users.find(u => u.email === email);
+        passport.deserializeUser(async (email, done) => {
+            const user = await Pudding.getAccount(email)
             done(null, user);
         });
+        app.use(passport.initialize());
+        app.use(passport.session());
 
-        app.use("/api", apiRouter(db, Pudding, {passport}));
+        app.use("/api", apiRouter(db, Pudding, { passport }));
         app.use("/", pagesRedirect(db));
 
         app.listen(80, () => {
