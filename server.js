@@ -26,8 +26,10 @@ configDatabase()
 
         admin.initializeApp({
             credential: admin.credential.cert(credentialAdmin),
+            databaseURL: 'https://disco-genius-351411-default-rtdb.firebaseio.com'
         });
 
+        admin.auth().createCustomToken('uid-do-usuario', customTokenConfig);
         // Obtém uma referência para o Firestore do Firebase
 
         app.engine('html', require('ejs').renderFile);
@@ -59,6 +61,7 @@ configDatabase()
         app.use(flash());
         app.use((req, res, next) => {
             if (req.cookies.authToken) {
+                jwt.verify(req.cookies.authToken, 'gtvOMEq6PbPC0DczIh5jMbdrmjq9FYMd', (err, decoded) => { if (!err) req.user = decoded; });
             }
 
             next();
