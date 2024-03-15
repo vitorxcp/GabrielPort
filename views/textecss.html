@@ -120,8 +120,12 @@
                     </div>
                     <button
                         class="flex justify-center items-center bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[30px]"
-                        id="login-send"><span
-                            class="flex rounded-full loader w-[30px] h-[30px] before:border-[3px]"></span></button>
+                        id="login-send">
+                        <svg class="spinner" width="30px" height="30px" viewBox="0 0 66 66"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+                                r="30"></circle>
+                        </svg></button>
                     <div class="mb-[10px] mt-[5px] flex justify-between">
                         <button class="text-[#005C9F] group flex items-center gap-[5px]" id="login-user"
                             onclick="loginView();">Lembrei a senha<i
