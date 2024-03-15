@@ -1,3 +1,4 @@
+
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 gtag('js', new Date());
@@ -248,14 +249,157 @@ $(document).ready(function () {
         }, 150)
     })
 
-    $('body').on('click', 'button#login-send', function (event) {
-        notifyView({ content: `<i class="fa-regular fa-circle-exclamation mb-[5px]"></i>Sistema de autenticação em construção, tente novamente mais tarde...` })
+    $('body').on('click', 'button#login-send', async function (event) {
+        reloadAnimationHTML(this);
+        const email = $("#login-email").val().trim();
+        const password = $("#login-password").val().trim();
+
+        if (!email || !email.includes("@")) {
+            $("#login-email").focus();
+            notifyView({ content: "Insira um email válido...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        if (!password || password.length <= 8) {
+            $("#login-password").focus();
+            notifyView({ content: "Insira uma senha válida (mínimo 8 caracteres)...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/login"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                $("#view-pop").addClass("opacity-0")
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+            }
+
+            console.log(data); // Exibir os dados da resposta
+
+            // Redirecionar o usuário ou fazer outra operação com base na resposta, se necessário
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Entrar")
+                .attr("disabled", false);
+        }
+    });
+
+    $('body').on('click', 'button#register-send', async function (event) {
+        reloadAnimationHTML(this);
+        const name = $("#register-name").val().trim();
+        const email = $("#register-email").val().trim();
+        const password = $("#register-password").val().trim();
+        const password2 = $("#register-password-verify").val().trim();
+
+        if (!name || name.length <= 4) {
+            $("#register-name").focus();
+            notifyView({ content: "Insira um nome completo ou apenas nome é sobrenome...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        if (!email || !email.includes("@")) {
+            $("#register-email").focus();
+            notifyView({ content: "Insira um email válido...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        if (!password || password.length <= 8) {
+            $("#register-password").focus();
+            notifyView({ content: "Insira uma senha válida (mínimo 8 caracteres)...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        if (password != password2) {
+            $("#register-password-verify").focus();
+            notifyView({ content: "As senhas não são iguais...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/register"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ name, email, password })
+            });
+
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                $("#view-pop").addClass("opacity-0")
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+            }
+
+            console.log(data); // Exibir os dados da resposta
+
+            // Redirecionar o usuário ou fazer outra operação com base na resposta, se necessário
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Entrar")
+                .attr("disabled", false);
+        }
     })
-    $('body').on('click', 'button#register-send', function (event) {
-        notifyView({ content: `<i class="fa-regular fa-circle-exclamation mb-[5px]"></i>Sistema de autenticação em construção, tente novamente mais tarde...` })
-    })
+
     $('body').on('click', 'button#code-reset-send', function (event) {
-        notifyView({ content: `<i class="fa-regular fa-circle-exclamation mb-[5px]"></i>Sistema de autenticação em construção, tente novamente mais tarde...` })
+        reloadAnimationHTML(this);
     })
 })
 
@@ -264,7 +408,9 @@ function notifyView({ content, type = 0 }) {
     var dateId = Date.now();
 
     var colors = [
-        "#00000075"
+        "#00000075",
+        "#641d1d75",
+        "#079e4e75"
     ]
 
     var item = $("<div>")
@@ -287,4 +433,21 @@ function notifyView({ content, type = 0 }) {
         clearTimeout(deleteNotifyTime);
         $(this).remove();
     })
+}
+
+function reloadAnimationHTML(element, width = "30px", height = width) {
+    $(element)
+        .attr("disabled", true)
+        .addClass("flex justify-center items-center")
+        .html(`
+         <svg class="spinner" width="${width}" height="${height}" viewBox="0 0 66 66"
+            xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+            r="30"></circle>
+         </svg>
+        `)
+}
+
+function apiVersionURL(version, url) {
+    return `/api/${url}`;
 }
