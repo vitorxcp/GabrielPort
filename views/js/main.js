@@ -98,14 +98,103 @@ function visibilityOrHiddenPop() {
     }, 110)
 }
 
+async function authAccount(type) {
+    try {
+        var apm = $("#login-user");
+
+        const response = await fetch(apiVersionURL("v1", "/auth/user/@me"));
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Resposta inválida do servidor');
+        }
+
+        const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+        } else {
+            apm
+                .attr("auth", true)
+                .html(`
+            <div class="flex items-center gap-[10px]">
+            ${data.user.avatar ? `` : `<div class="bg-[#292B32] rounded-full w-[32px] h-[32px]"></div>`}
+            <span class="truncate w-[150px]">${data.user.name}</span>
+            </div>
+            `)
+            console.log(data.message);
+        }
+
+    } catch (err) {
+        var apm = $("#login-user");
+        apm
+            .attr("auth", false)
+            .html(`<i class="fa-solid fa-right-from-bracket"></i> Login`)
+        console.error(err);
+    }
+}
+
+async function getUser() {
+    try {
+        const response = await fetch(apiVersionURL("v1", "/auth/user/@me"));
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Resposta inválida do servidor');
+        }
+
+        const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+        } else {
+            return data.user;
+        }
+
+    } catch (err) {
+        return null;
+    }
+}
+
 function PopContent({ element = "Erro, elemento não encontrado...", classes = "", pop_display_delete = null, pop_display_add = null }) {
     $("#view-pop-content").html(element).removeClass().addClass(classes);
     if (pop_display_delete !== null) $("#view-pop-display").removeClass(`${pop_display_delete}`);
     if (pop_display_add !== null) $("#view-pop-display").addClass(`${pop_display_add}`);
 }
 
-$(document).ready(function () {
-    $('body').on('click', 'button#login-user', function (event) {
+$(document).ready(async function () {
+    await authAccount();
+
+    var emailRecoverPassword;
+    var elementHTMLSaveAuth;
+
+    $('body').on('click', 'div#auth-info', function (v) { $(this).attr("click", true); setTimeout(() => { $(this).attr("click", false) }, 1000) })
+
+    $('body').on('click', 'button#login-user', async function (event) {
+        if ($(this).attr("auth") === "true") {
+            var element = $(this);
+            var elementHTML = element.html();
+            var type = element.attr("open") ? "true" : "false";
+            var user = await getUser();
+            var permissions = user ? user.permissions : null;
+
+            if ($("div#auth-info").attr("click") === "true") return;
+            if (type === "true") return element.html(elementHTMLSaveAuth).attr("open", false);
+            else {
+                element
+                    .html(`
+                ${elementHTML}
+            <div class="absolute mt-[20px] w-[232px] ml-[-20px] rounded-md bg-[rgb(30,34,45)] items-start flex p-3 flex-col gap-1" id="auth-info">
+            <a class="text-white text-[18px] p-1 pr-4 pl-4 transition hover:bg-[#fafafa14] bg-[#fafafa07] rounded-md w-full text-start" hrefa="/profile">Meu Perfil</a>
+            ${(permissions ? permissions["admin"] : null) ? `<a class="text-white text-[18px] p-1 pr-4 pl-4 transition hover:bg-[#fafafa14] bg-[#fafafa07] rounded-md w-full text-start" href="/admin/painel">Painel de Controle</a>` : ""}
+            <button class="text-red-500 text-[18px] p-1 pr-4 pl-4 transition hover:bg-[#fafafa14] bg-[#fafafa07] rounded-md w-full text-start" id="auth-logout">Sair da Conta</button>
+            </div>
+            `).attr("open", true);
+                elementHTMLSaveAuth = elementHTML;
+            }
+            return;
+        }
+
         $("#view-pop").addClass("opacity-0")
         setTimeout(() => {
             $("#view-pop").removeClass("flex")
@@ -230,7 +319,7 @@ $(document).ready(function () {
                             class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
                             E-mail</h1>
                         <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
-                            type="email" name="email" id="login-email">
+                            type="email" name="email" id="login-recover-email">
                     </div>
                     <button
                         class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
@@ -291,20 +380,17 @@ $(document).ready(function () {
                 notifyView({ content: data.message, type: 2 });
 
                 $("#view-pop").addClass("opacity-0")
-                setTimeout(() => {
+                setTimeout(async () => {
                     $("#view-pop").removeClass("flex")
                     $("#view-pop").removeClass("scale-[1.05]");
                     $("#view-pop").addClass("hidden")
                 }, 100);
             }
-
-            console.log(data); // Exibir os dados da resposta
-
-            // Redirecionar o usuário ou fazer outra operação com base na resposta, se necessário
         } catch (err) {
             console.error(err);
             notifyView({ content: err.message, type: 1 });
         } finally {
+            await authAccount();
             resetButton(this);
         }
 
@@ -343,7 +429,7 @@ $(document).ready(function () {
             return;
         }
 
-        if (password != password2) {
+        if (password !== password2) {
             $("#register-password-verify").focus();
             notifyView({ content: "As senhas não são iguais...", type: 1 });
             resetButton(this);
@@ -374,7 +460,313 @@ $(document).ready(function () {
                 notifyView({ content: data.message, type: 2 });
 
                 $("#view-pop").addClass("opacity-0")
+                setTimeout(async () => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+            }
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            await authAccount();
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Registrar Conta")
+                .attr("disabled", false);
+        }
+    })
+
+    $('body').on('click', 'button#code-reset-send', async function (event) {
+        reloadAnimationHTML(this);
+        const email = $("#login-recover-email").val().trim();
+
+        if (!email || !email.includes("@")) {
+            $("#login-recover-email").focus();
+            notifyView({ content: "Insira um email válido...", type: 1 });
+            resetButton(this);
+            return;
+        }
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/password/recover"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                emailRecoverPassword = email;
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                PopContent({
+                    element: `
+            <h1 class="font-medium uppercase text-[40px] font-['Heavitas'] mt-[10px] mb-[20px] text-center">
+                        Recuperação
+                    </h1>
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <p class="text-red-500 mb-[24px]">Não sabe onde está este bendito código? Verifique a sua caixa de mensagens (Gmail, Outlook e Yahoo) (verifica também à caixa de span)!</p>
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Código</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="text" inputmode="numeric" pattern="\d*" name="code" id="login-recover-code">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="code-recover-send">Verificar</button>
+                        </form>
+					<div class="mb-[10px] mt-[5px] flex justify-between">
+                        <button class="text-[#005C9F] group flex items-center gap-[5px]" id="login-user">Lembrei a senha<i
+                                class="transition fa-solid fa-arrow-right group-hover:translate-x-1"></i></button>
+					</div>
+            `,
+                    classes: "flex flex-col justify-center p-5",
+                    pop_display_delete: "w-[350px] h-[150px]",
+                    pop_display_add: "w-[400px]"
+                })
+            }
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Enviar código")
+                .attr("disabled", false);
+        }
+    })
+
+    $('body').on('click', 'button#code-recover-send', async function (event) {
+        reloadAnimationHTML(this);
+        const email = emailRecoverPassword;
+        const code = $("#login-recover-code").val();
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/password/recover/code"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ email, code })
+            });
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                emailRecoverPassword = email;
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                PopContent({
+                    element: `
+            <h1 class="font-medium uppercase text-[40px] font-['Heavitas'] mt-[10px] mb-[20px] text-center">
+                        Recuperação
+                    </h1>
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Nova senha</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="password" name="password" id="recover-password-one">
+                    </div>
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Repita a senha</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="password" name="password" id="recover-password-turs">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="recover-password-send">Alterar</button>
+                        </form>
+					<div class="mb-[10px] mt-[5px] flex justify-between">
+                        <button class="text-[#005C9F] group flex items-center gap-[5px]" id="login-user">Lembrei a senha<i
+                                class="transition fa-solid fa-arrow-right group-hover:translate-x-1"></i></button>
+					</div>
+            `,
+                    classes: "flex flex-col justify-center p-5",
+                    pop_display_delete: "w-[350px] h-[150px]",
+                    pop_display_add: "w-[400px]"
+                })
+            }
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Verificar")
+                .attr("disabled", false);
+        }
+    })
+
+    $('body').on('click', 'button#recover-password-send', async function (v) {
+        reloadAnimationHTML(this);
+        const email = emailRecoverPassword;
+        const password_one = $("#recover-password-one").val();
+        const password_turs = $("#recover-password-turs").val();
+
+        if (!String(password_one).trim()) {
+            $("#recover-password-one").focus()
+            resetButton(this);
+            return notifyView({ content: "Insira a senha!", type: 1 });
+        }
+
+        if (!String(password_turs).trim()) {
+            $("#recover-password-turs").focus()
+            resetButton(this);
+            return notifyView({ content: "Insira a senha!", type: 1 });
+        }
+
+        if (String(password_one).length <= 8) {
+            $("#recover-password-one").focus()
+            resetButton(this);
+            return notifyView({ content: "Insira uma senha maior!", type: 1 });
+        }
+
+        if (password_one !== password_turs) {
+            $("#password_turse").focus()
+            resetButton(this);
+            return notifyView({ content: "As senhas não são as mesmas...", type: 1 });
+        }
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/password/update"), {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ email, password: password_one })
+            });
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                $("#view-pop").addClass("opacity-0")
                 setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+            <h1 class="font-medium uppercase text-[40px] font-['Heavitas'] mt-[10px] mb-[20px] text-center">
+                        Login
+                    </h1>
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            E-mail</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="email" name="email" id="login-email">
+                    </div>
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[15px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Senha</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="password" name="password" id="login-password">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="login-send" type="submit">Entrar</button>
+                        </form>
+                    <div class="mb-[10px] mt-[5px] flex justify-between">
+                        <button class="text-[#787878]" id="password-reset">Esqueci a minha senha</button>
+                        <button class="text-[#005C9F] group flex items-center gap-[5px]" id="register-option">Me
+                            registrar <i
+                                class="transition fa-solid fa-arrow-right group-hover:translate-x-1"></i></button>
+                    </div>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            }
+        } catch (err) {
+            console.error(err);
+            notifyView({ content: err.message, type: 1 });
+        } finally {
+            resetButton(this);
+        }
+
+        function resetButton(button) {
+            $(button)
+                .html("Verificar")
+                .attr("disabled", false);
+        }
+    })
+
+    $('body').on('click', 'button#auth-logout', async function (event) {
+        reloadAnimationHTML(this, "27px");
+
+        try {
+            const response = await fetch(apiVersionURL("v1", "/auth/logout"), {
+                method: "POST"
+            });
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+
+            const data = await response.json(); // Tentamos analisar a resposta como JSON
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
+            } else {
+                console.log(data.message);
+                notifyView({ content: data.message, type: 2 });
+
+                $("#view-pop").addClass("opacity-0")
+                setTimeout(async () => {
                     $("#view-pop").removeClass("flex")
                     $("#view-pop").removeClass("scale-[1.05]");
                     $("#view-pop").addClass("hidden")
@@ -388,19 +780,16 @@ $(document).ready(function () {
             console.error(err);
             notifyView({ content: err.message, type: 1 });
         } finally {
+            await authAccount()
             resetButton(this);
         }
 
         function resetButton(button) {
             $(button)
-                .html("Entrar")
+                .html("Sair da Conta")
                 .attr("disabled", false);
         }
-    })
-
-    $('body').on('click', 'button#code-reset-send', function (event) {
-        reloadAnimationHTML(this);
-    })
+    });
 })
 
 function notifyView({ content, type = 0 }) {
