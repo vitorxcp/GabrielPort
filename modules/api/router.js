@@ -1,4 +1,4 @@
-// Sistema sendo feito, pode apresentar erros ou bugs caso usem...
+const ConfigProject = require("../../config");
 
 /**
  * @typedef {Object} Database
@@ -11,6 +11,9 @@
  * @property {function} registerAccount - Método para registrar uma nova conta no banco de dados
  * @property {function} authenticateUser - Método para autenticar no sistema no banco de dados
  * @property {function} getAccount - Método para pegar os dados da conta no banco de dados
+ * @property {function} getRecoverPasswordCode - Método gerar e salvar o codigo de recuperação
+ * @property {function} recoverPasswordCode - Método para verificar o codigo de verificação é remover do banco de dados
+ * @property {function} passwordUpdate - Método para mudar senha do usuário
  */
 
 /**
@@ -24,6 +27,7 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
     const express = require("express");
     const app = express.Router();
     const bodyParser = require('body-parser');
+    const nodemailer = require('nodemailer');
 
     app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -58,7 +62,6 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         })(req, res, next);
     });
 
-
     app.post('/auth/register', async (req, res, next) => {
         const { name, email, password } = req.body;
 
@@ -75,9 +78,12 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         }
 
         const existingUser = await Pudding.verifyEmailExist(email);
+
         if (existingUser) {
+            if (existingUser === 2345) return res.status(400).send({ message: 'E-mail invalido.' });
             return res.status(400).send({ message: 'E-mail já registrado.' });
         }
+
 
         var register = await Pudding.registerAccount(name, email, password);
         if (register === true) {
@@ -101,7 +107,6 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         }
     });
 
-
     app.post("/auth/logout", function (req, res, next) {
         req.logout(function (err) {
             if (err) {
@@ -116,6 +121,108 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         var user = req.user ?? null;
         if (!user) return res.status(500).send({ message: "Não esta Logado..." });
         else return res.status(200).send({ message: "Conectado!", user })
+    })
+
+    app.post("/auth/password/recover", async (req, res) => {
+        const { email } = req.body;
+
+        if (!String(email).trim()) {
+            return res.status(400).send({ message: 'Todos os campos são obrigatórios.' });
+        }
+
+        if (!String(email).trim().includes("@")) {
+            return res.status(400).send({ message: 'Email invalido...' });
+        }
+
+        const existingUser = await Pudding.verifyEmailExist(email);
+
+        if (!existingUser || existingUser === 2345) return res.status(500).send({ message: 'E-mail invalido.' });
+
+        const { MailtrapClient } = require("mailtrap");
+
+        const TOKEN = ConfigProject.email.token;
+        const ENDPOINT = ConfigProject.email.endpoint;
+
+        const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
+
+        const sender = {
+            email: ConfigProject.email.painel,
+            name: ConfigProject.email.name,
+        };
+        const recipients = [
+            { email }
+        ];
+
+        var user = await Pudding.getAccount(email);
+        var code = await Pudding.getRecoverPasswordCode(email);
+
+        client
+            .send({
+                from: sender,
+                to: recipients,
+                subject: `Gabriel Martins - Recuperar Senha`,
+                html: `
+                <div style="display: flex;flex-direction: column;align-items: center;">
+                <div style="border-radius: 1rem;padding: 1.25rem;background-color: #0a87ff30;color: #000;">
+                <h1 style="text-transform: uppercase;font-size: 32px;color: #000;">Código de Recuperação</h1>
+                <p style="color: #000;">Olá, <strong>${user.name}</strong>.</p>
+                <p style="color: #000;">Recebemos uma solicitação de código de acesso para recuperação de senha, esté código expira em 15 minutos.</p>
+                <div>
+                <h1 style="font-size: 26px;color: #000;">Seu Código:</h1>
+                <span style="text-transform: uppercase;font-size: 32px;color: rgb(59,130,246);font-weight: 700;">${code}</span>
+                </div>
+                <p style="color: rgb(239,68,68);">Se você não solicitou a recuperação de senha, é recomendável que altere sua senha para garantir a segurança da sua conta.</p>
+                </div>
+                </div>
+                `
+            })
+            .then(res2 => {
+                if (!res2.success) return res.status(500).send({ message: "Erro para enviar o código..." });
+                else return res.status(200).send({ message: "Código enviado." });
+            }).catch(e => {
+                res.status(500).send({ message: "Erro para enviar o código..." })
+            })
+    })
+
+    app.post("/auth/password/recover/code", async (req, res) => {
+        const { email, code } = req.body;
+
+        if (!String(email).trim() || !String(code).trim()) {
+            return res.status(400).send({ message: 'Todos os campos são obrigatórios.' });
+        }
+
+        if (!String(email).trim().includes("@")) {
+            return res.status(400).send({ message: 'Email invalido...' });
+        }
+
+        const existingUser = await Pudding.verifyEmailExist(email);
+
+        if (!existingUser || existingUser === 2345) return res.status(500).send({ message: 'E-mail invalido.' });
+
+        var codev = await Pudding.recoverPasswordCode(email, code);
+
+        if (codev === true) return res.status(200).send({ message: "Código correto!" })
+        else return res.status(404).send({ message: "Código errado, verifique é tente novamente..." })
+    })
+
+    app.post("/auth/password/update", async (req, res) => {
+        const { email, password } = req.body;
+
+        if (!String(email).trim() || !String(password).trim()) {
+            return res.status(400).send({ message: 'Todos os campos são obrigatórios.' });
+        }
+
+        if (!String(email).trim().includes("@")) {
+            return res.status(400).send({ message: 'Email invalido...' });
+        }
+
+        const existingUser = await Pudding.verifyEmailExist(email);
+
+        if (!existingUser || existingUser === 2345) return res.status(500).send({ message: 'E-mail invalido.' });
+        var modf = await Pudding.passwordUpdate(email, password);
+
+        if (modf === true) return res.status(200).send({ message: "Senha alterada com sucesso!" });
+        else return res.status(500).send({ message: "Erro para alterar senha, tente novamente mais tarde..." })
     })
     return app;
 }
