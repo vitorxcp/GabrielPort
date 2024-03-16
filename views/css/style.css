@@ -1801,6 +1801,10 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-\[-20px\] {
+  margin-left: -20px;
+}
+
 .ml-\[-5px\] {
   margin-left: -5px;
 }
@@ -1877,8 +1881,16 @@ video {
   margin-top: 15px;
 }
 
+.mt-\[20px\] {
+  margin-top: 20px;
+}
+
 .mt-\[5px\] {
   margin-top: 5px;
+}
+
+.mb-\[24px\] {
+  margin-bottom: 24px;
 }
 
 .box-border {
@@ -2032,6 +2044,10 @@ video {
   height: 25px;
 }
 
+.h-\[32px\] {
+  height: 32px;
+}
+
 .h-\[350px\] {
   height: 350px;
 }
@@ -2080,6 +2096,10 @@ video {
   width: 200px;
 }
 
+.w-\[232px\] {
+  width: 232px;
+}
+
 .w-\[250px\] {
   width: 250px;
 }
@@ -2090,6 +2110,10 @@ video {
 
 .w-\[300px\] {
   width: 300px;
+}
+
+.w-\[32px\] {
+  width: 32px;
 }
 
 .w-\[350px\] {
@@ -3388,6 +3412,11 @@ video {
   background-color: rgb(38 48 65 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#292B32\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(41 43 50 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#2B4C77\] {
   --tw-bg-opacity: 1;
   background-color: rgb(43 76 119 / var(--tw-bg-opacity));
@@ -3408,6 +3437,10 @@ video {
   background-color: rgb(144 144 144 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#fafafa07\] {
+  background-color: #fafafa07;
+}
+
 .bg-\[rgb\(0\2c 0\2c 0\2c 0\.46\)\] {
   background-color: rgb(0,0,0,0.46);
 }
@@ -3420,6 +3453,11 @@ video {
 .bg-\[rgb\(255\2c 0\2c 0\)\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-\[rgb\(30\2c 34\2c 45\)\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 34 45 / var(--tw-bg-opacity));
 }
 
 .bg-gray-100 {
@@ -6417,6 +6455,10 @@ video {
   background-color: #f0f8ff1c;
 }
 
+.hover\:bg-\[\#fafafa14\]:hover {
+  background-color: #fafafa14;
+}
+
 .hover\:font-bold:hover {
   font-weight: 700;
 }
@@ -6823,6 +6865,28 @@ video {
 @media (max-width: 985px) {
   .max-\[985px\]\:w-0 {
     width: 0px;
+  }
+}
+
+@media (max-width: 866px) {
+  .max-\[866px\]\:flex {
+    display: flex;
+  }
+
+  .max-\[866px\]\:hidden {
+    display: none;
+  }
+
+  .max-\[866px\]\:p-\[40px\] {
+    padding: 40px;
+  }
+
+  .max-\[866px\]\:pl-\[10px\] {
+    padding-left: 10px;
+  }
+
+  .max-\[866px\]\:pr-\[10px\] {
+    padding-right: 10px;
   }
 }
 
