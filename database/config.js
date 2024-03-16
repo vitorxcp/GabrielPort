@@ -4,6 +4,9 @@
  * @property {function} registerAccount - Método para registrar uma nova conta no banco de dados
  * @property {function} authenticateUser - Método para autenticar no sistema no banco de dados
  * @property {function} getAccount - Método para pegar os dados da conta no banco de dados
+ * @property {function} getRecoverPasswordCode - Método gerar e salvar o codigo de recuperação
+ * @property {function} recoverPasswordCode - Método para verificar o codigo de verificação é remover do banco de dados
+ * @property {function} passwordUpdate - Método para mudar senha do usuário
 */
 
 /**
@@ -18,7 +21,7 @@
  */
 
 const { initializeApp } = require('firebase/app');
-const { getDatabase, ref, set, child, get } = require('firebase/database');
+const { getDatabase, ref, set, child, get, update } = require('firebase/database');
 const bcrypt = require('bcrypt');
 const ConfigProject = require('../config');
 
@@ -41,18 +44,21 @@ module.exports.configDatabase = () => {
 
         class Pudding {
             static verifyEmailExist = async (email) => {
-                email = String(email).replaceAll(".", "_");
+                try {
+                    email = String(email).replaceAll(".", "_");
 
-                const data = await get(child(ref(db), `auth/accounts/${email}`));
-                console.log(data.exists(), data.val())
-                return data.exists();
+                    const data = await get(child(ref(db), `auth/accounts/${email}`));
+                    return data.exists();
+                } catch (err) { return 2345 }
             }
 
             static getAccount = async (email) => {
-                email = String(email).replaceAll(".", "_");
+                try {
+                    email = String(email).replaceAll(".", "_");
 
-                const data = await get(child(ref(db), `auth/accounts/${email}`));
-                return data.val();
+                    const data = await get(child(ref(db), `auth/accounts/${email}`));
+                    return data.val();
+                } catch (err) { return 2345 }
             }
 
             static registerAccount = async (name, email, password) => {
@@ -65,7 +71,6 @@ module.exports.configDatabase = () => {
                         email,
                         password: hashedPassword
                     });
-                    console.log("e")
                     return true;
                 } catch (error) {
                     console.error(error);
@@ -87,8 +92,55 @@ module.exports.configDatabase = () => {
                     return false;
                 }
             };
+
+            static getRecoverPasswordCode = async (email) => {
+                try {
+                    var code = generateSixDigitNumber();
+                    email = String(email).replaceAll(".", "_");
+                    await update(ref(db, `auth/accounts/${email}`), { codeRecover: code });
+                    setTimeout(async () => {
+                        await update(ref(db, `auth/accounts/${email}`), { codeRecover: null })
+                    }, 900000)
+                    return code;
+                } catch (error) {
+                    console.error('Erro ao verificar email:', error);
+                    return null;
+                }
+            }
+
+            static recoverPasswordCode = async (email, code) => {
+                try {
+                    email = String(email).replaceAll(".", "_");
+                    const data = await get(child(ref(db), `auth/accounts/${email}`));
+                    const userData = data.val();
+
+                    if (userData && String(userData ? userData.codeRecover : null) === code) { await update(ref(db, `auth/accounts/${email}`), { codeRecover: null }); return true }
+                    else return false;
+                } catch (error) {
+                    console.error('Erro ao verificar email:', error);
+                    return false;
+                }
+            }
+
+            static passwordUpdate = async (email, password) => {
+                try {
+                    email = String(email).replaceAll(".", "_");
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    await update(ref(db, `auth/accounts/${email}`), {
+                        password: hashedPassword
+                    });
+                    return true;
+                } catch (error) {
+                    console.error(error);
+                    return false;
+                }
+            }
         }
 
         resolve({ db, Pudding, credentialAdmin: ConfigProject.database.admin });
     });
+
+    function generateSixDigitNumber() {
+        return Math.floor(Math.random() * 900000) + 100000;
+    }
 }
