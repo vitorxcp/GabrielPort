@@ -1,6 +1,8 @@
 
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
+var userInfo = {};
+
 gtag('js', new Date());
 
 gtag('config', 'G-2JYZE1GNX7');
@@ -114,8 +116,10 @@ async function authAccount(type) {
         if (!response.ok) {
             throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
         } else {
+            userInfo = data.user;
             apm
                 .attr("auth", true)
+                .attr("open", false)
                 .html(`
             <div class="flex items-center gap-[10px]">
             ${data.user.avatar ? `` : `<div class="bg-[#292B32] rounded-full w-[32px] h-[32px]"></div>`}
@@ -134,6 +138,7 @@ async function authAccount(type) {
     }
 }
 
+
 async function getUser() {
     try {
         const response = await fetch(apiVersionURL("v1", "/auth/user/@me"));
@@ -148,6 +153,7 @@ async function getUser() {
         if (!response.ok) {
             throw new Error(data.message || 'Erro ao conectar-se ao servidor...');
         } else {
+            userInfo = data.user;
             return data.user;
         }
 
@@ -163,7 +169,7 @@ function PopContent({ element = "Erro, elemento não encontrado...", classes = "
 }
 
 $(document).ready(async function () {
-    await authAccount();
+    await getUser();
 
     var emailRecoverPassword;
     var elementHTMLSaveAuth;
@@ -171,15 +177,15 @@ $(document).ready(async function () {
     $('body').on('click', 'div#auth-info', function (v) { $(this).attr("click", true); setTimeout(() => { $(this).attr("click", false) }, 1000) })
 
     $('body').on('click', 'button#login-user', async function (event) {
-        if ($(this).attr("auth") === "true") {
+        if ($(this).attr("auth") === "true" || $(this).attr("auth") === true) {
             var element = $(this);
             var elementHTML = element.html();
-            var type = element.attr("open") ? "true" : "false";
-            var user = await getUser();
+            var type = element.attr("open") ? element.attr("open") : "false";
+            var user = userInfo;
             var permissions = user ? user.permissions : null;
 
             if ($("div#auth-info").attr("click") === "true") return;
-            if (type === "true") return element.html(elementHTMLSaveAuth).attr("open", false);
+            if (type === "open") return element.html(elementHTMLSaveAuth).attr("open", false);
             else {
                 element
                     .html(`
@@ -764,7 +770,7 @@ $(document).ready(async function () {
             } else {
                 console.log(data.message);
                 notifyView({ content: data.message, type: 2 });
-
+                userInfo = {};
                 $("#view-pop").addClass("opacity-0")
                 setTimeout(async () => {
                     $("#view-pop").removeClass("flex")
