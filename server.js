@@ -94,6 +94,7 @@ configDatabase()
 
         passport.deserializeUser(async (email, done) => {
             const user = await Pudding.getAccount(email)
+            user.password = "curioso..."
             done(null, user);
         });
         app.use(passport.initialize());
