@@ -17,7 +17,7 @@
     <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js" fetchpriority="high"></script>
     <script>
         $(document).ready(function (v) {
             $('[class^="image-pointer-select"]').click(function (e) {
@@ -59,7 +59,9 @@
         <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
             <div class="flex">
                 <a href="/">
-                    <div class="bg-[#161920] w-[150px] h-[50px] rounded-md"></div>
+                    <img class="w-[150px] h-[50px] rounded-md"
+                        src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                        alt="Logo">
                 </a>
             </div>
             <div class="flex max-[866px]:p-[40px] max-[866px]:pr-[10px] max-[866px]:pl-[10px]">
@@ -89,12 +91,29 @@
                 </a>
             </div>
             <div class="flex">
-                <button
-                    class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
-                    id="login-user">
-                    <i class="fa-solid fa-right-from-bracket"></i> Login</button>
-                <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[866px]:flex transition-[1s]"
-                    id="open-bars"><i class="fa-solid fa-bars"></i></div>
+                <%if(!Auth) {%>
+                    <button
+                        class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                        id="login-user">
+                        <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                    <%} else {%>
+                        <button
+                            class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                            id="login-user" auth="true">
+                            <div class="flex items-center gap-[10px]">
+                                <%if(!user.avatar) {%>
+                                    <div class="bg-[#292B32] rounded-full w-[32px] h-[32px]"></div>
+                                    <%} else {%>
+                                        user.avatar
+                                        <%}%>
+                                            <span class="truncate w-[150px]">
+                                                <%=user.name%>
+                                            </span>
+                            </div>
+                        </button>
+                        <%}%>
+                            <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[866px]:flex transition-[1s]"
+                                id="open-bars"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
         <div id="warn-bar">
@@ -382,7 +401,11 @@
     <div
         class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
         <div class="flex">
-            <div class="bg-[#161920] w-[300px] h-[150px] rounded-md"></div>
+            <a href="/">
+                <img class="w-[310px] h-[100px] rounded-md"
+                    src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                    alt="Logo">
+            </a>
         </div>
         <div class="flex gap-8 max-md:flex-col">
             <div class="w-[200px]">
@@ -399,7 +422,8 @@
                 <h1 class="uppercase font-semibold text-[18px] text-white">Links importantes</h1>
                 <hr class="border-[#232D3C] w-full mb-[10px]">
                 <div class="flex flex-col">
-                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página ai</a>
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página
+                        ai</a>
                 </div>
             </div>
             <div class="w-[200px]">
