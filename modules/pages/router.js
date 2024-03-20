@@ -26,34 +26,55 @@ module.exports.pagesRedirect = (db, Pudding) => {
     const app = express.Router();
 
     app.get("/", function (req, res) {
-        res.render("index.html")
+        res.render("index.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.get("/biography", function (req, res) {
-        res.render("biography.html")
+        res.render("biography.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.get("/blog", function (req, res) {
-        res.render("blog.html")
+        res.render("blog.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.get("/galery", function (req, res) {
-        res.render("galery.html")
+        res.render("galery.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.get("/textest", function (req, res) {
-        res.render("textecss.html")
+        res.render("textecss.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.get("/admin/painel", async (req, res) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"]: null) : null)) return res.redirect("/");
-        res.render("admin/painel.html")
+        res.render("admin/painel.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     app.use(express.static('views'));
 
     app.get("*", function (req, res) {
-        res.render("404.html")
+        res.render("404.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
     })
 
     return app;
