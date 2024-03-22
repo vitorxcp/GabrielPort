@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.display-none {
+    display: none;
+}
+
 .lds-ring {
     display: inline-block;
     position: relative;
