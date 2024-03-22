@@ -61,8 +61,16 @@ module.exports.pagesRedirect = (db, Pudding) => {
     })
 
     app.get("/admin/painel", async (req, res) => {
-        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"]: null) : null)) return res.redirect("/");
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
         res.render("admin/painel.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
+    })
+
+    app.get("/admin/permissions", async (req, res) => {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
+        res.render("admin/permissions.html", {
             Auth: req.isAuthenticated(),
             user: req.user
         })
