@@ -776,6 +776,8 @@ $(document).ready(async function () {
                     $("#view-pop").removeClass("flex")
                     $("#view-pop").removeClass("scale-[1.05]");
                     $("#view-pop").addClass("hidden")
+
+                    if (String(location.href).includes("/admin")) location.href = "/";
                 }, 100);
             }
 
