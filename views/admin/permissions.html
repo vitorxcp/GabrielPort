@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagína Inicial - Gabriel Felipe Martins</title>
+    <link rel="stylesheet" href="/css/style.css" importance="high">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css"
+        importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/ds99fda34ef21f020f54.css"
+        importance="true">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
+        importance="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body class="bg-[#0B0E13] font-sans text-white">
+    <div class="hidden bg-[rgb(0,0,0,0.46)] w-full h-full justify-center items-center z-20 fixed transition-[1s] opacity-0"
+        id="view-pop">
+        <div class="bg-[#13171F] rounded-md p-2 w-[350px] h-[150px] flex flex-col" id="view-pop-display">
+            <div id="view-pop-content"></div>
+            <div class="absolute flex justify-end" style="width: inherit; margin-left: -15px;">
+                <button id="view-pop-close">
+                    <i class="text-xl text-red-500 fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="fixed z-30 flex flex-col items-center justify-end w-full h-full gap-1 p-4 transition bg-transparent pointer-events-none"
+        id="notification-view"></div>
+    <nav class="bg-[rgb(17,21,29)] fixed w-full z-10">
+        <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
+            <div class="flex">
+                <a href="/">
+                    <img class="w-[150px] h-[50px] rounded-md"
+                        src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                        alt="Logo">
+                </a>
+            </div>
+            <div class="flex max-[866px]:p-[40px] max-[866px]:pr-[10px] max-[866px]:pl-[10px]">
+                <a href="/" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Pagína
+                        Inicial
+                    </div>
+                </a>
+                <a href="/biography" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Biografia</div>
+                </a>
+                <a href="/blog" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Notícias
+                    </div>
+                </a>
+                <a href="/galery" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Galeria
+                    </div>
+                </a>
+            </div>
+            <div class="flex">
+                <%if(!Auth) {%>
+                    <button
+                        class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                        id="login-user">
+                        <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                    <%} else {%>
+                        <button
+                            class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                            id="login-user" auth="true">
+                            <div class="flex items-center gap-[10px]">
+                                <%if(!user.avatar) {%>
+                                    <div class="bg-[#292B32] rounded-full w-[32px] h-[32px]"></div>
+                                    <%} else {%>
+                                        user.avatar
+                                        <%}%>
+                                            <span class="truncate w-[150px]">
+                                                <%=user.name%>
+                                            </span>
+                            </div>
+                        </button>
+                        <%}%>
+                            <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[866px]:flex transition-[1s]"
+                                id="open-bars"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+        <div id="warn-bar">
+            <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
+                    sistemas
+                    podem não
+                    funcionar
+                    corretamente.</span>
+            </div>
+        </div>
+        <div class="absolute translate-x-full top-0 z-30 hidden flex-col items-end w-full h-[100vh] pr-8 pt-3 rounded-lg bg-[#0b0e13] duration-300 transition-transform"
+            id="mobile-view">
+            <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[14px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                    id="close-bars">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end underline"
+                    href="/">Página Inicial</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/biography">Biografia</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/blog">Notícias</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/galery">Galeria</a>
+            </div>
+        </div>
+    </nav>
+    <div class="h-[100px]"></div>
+    <section class="flex flex-col gap-[40px]">
+        <div class="flex">
+            <div
+                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px]">
+                <div>
+                    <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Configurações</h1>
+                    <div class="flex flex-col gap-1">
+                        <a href="/admin/painel"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] rounded-md text-[18px] transition">Configurações
+                            Principais</a>
+                        <a href="/admin/permissions"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] transition">Permissões</a>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Páginas</h1>
+                    <div class="flex flex-col gap-1">
+                        <a href="/admin/pages/index"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Página
+                            Inicial</a>
+                        <div
+                            class="cursor-pointer w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">
+                            <h1>Biografia</h1>
+                            <div></div>
+                        </div>
+                        <a href="/admin/pages/blog"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
+                        <a href="/admin/pages/galery"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Galeria</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex mt-[50px] flex-col">
+                <h1 class="text-[rgba(255,255,255,0.58)] text-3xl font-semibold">Permissões</h1>
+            </div>
+        </div>
+    </section>
+</body>
+<footer>
+    <hr class="border-[#1F2937] w-full">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
+        <div class="flex">
+            <a href="/">
+                <img class="w-[310px] h-[100px] rounded-md"
+                    src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                    alt="Logo">
+            </a>
+        </div>
+        <div class="flex gap-8 max-md:flex-col">
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Pagína Inicial</a>
+                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Biografia</a>
+                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Notícias</a>
+                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Galeria</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Links importantes</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página
+                        ai</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>
