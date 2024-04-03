@@ -1857,6 +1857,10 @@ video {
   margin-top: 1rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-8 {
   margin-top: 2rem;
 }
@@ -1915,14 +1919,6 @@ video {
 
 .mt-\[5px\] {
   margin-top: 5px;
-}
-
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
 }
 
 .box-border {
@@ -2076,6 +2072,10 @@ video {
   height: 170px;
 }
 
+.h-\[200px\] {
+  height: 200px;
+}
+
 .h-\[25px\] {
   height: 25px;
 }
@@ -2120,6 +2120,10 @@ video {
   height: 100%;
 }
 
+.h-inherit {
+  height: inherit;
+}
+
 .h-min {
   height: -moz-min-content;
   height: min-content;
@@ -2131,6 +2135,10 @@ video {
 
 .w-\[100\%\] {
   width: 100%;
+}
+
+.w-\[100px\] {
+  width: 100px;
 }
 
 .w-\[10px\] {
@@ -2197,6 +2205,10 @@ video {
   width: 500px;
 }
 
+.w-\[50px\] {
+  width: 50px;
+}
+
 .w-\[600px\] {
   width: 600px;
 }
@@ -2215,6 +2227,10 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-inherit {
+  width: inherit;
 }
 
 .w-max {
@@ -2598,6 +2614,10 @@ video {
 
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -3514,6 +3534,11 @@ video {
   background-color: rgb(43 76 119 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#2E3442\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(46 52 66 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#342B10\] {
   --tw-bg-opacity: 1;
   background-color: rgb(52 43 16 / var(--tw-bg-opacity));
@@ -4053,6 +4078,10 @@ video {
   font-size: 40px;
 }
 
+.text-\[50px\] {
+  font-size: 50px;
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -4169,6 +4198,11 @@ video {
 .text-\[\#104576\] {
   --tw-text-opacity: 1;
   color: rgb(16 69 118 / var(--tw-text-opacity));
+}
+
+.text-\[\#161920\] {
+  --tw-text-opacity: 1;
+  color: rgb(22 25 32 / var(--tw-text-opacity));
 }
 
 .text-\[\#235fa7\] {
@@ -4360,6 +4394,11 @@ video {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
+.text-slate-300 {
+  --tw-text-opacity: 1;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -4427,6 +4466,10 @@ video {
 
 .opacity-0 {
   opacity: 0;
+}
+
+.opacity-50 {
+  opacity: 0.5;
 }
 
 .opacity-75 {
@@ -6830,13 +6873,13 @@ video {
   color: rgb(194 193 193 / var(--tw-text-opacity));
 }
 
-.group:hover .group-hover\:visible {
-  visibility: visible;
-}
-
 .group:hover .group-hover\:translate-x-1 {
   --tw-translate-x: 0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group:hover .group-hover\:bg-\[rgba\(0\2c 0\2c 0\2c 0\.58\)\] {
+  background-color: rgba(0,0,0,0.58);
 }
 
 .group:hover .group-hover\:opacity-100 {
