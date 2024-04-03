@@ -32,6 +32,12 @@ module.exports = {
       fontFamily: {
         sans: ['"League Spartan"', 'sans-serif'],
       },
+      width: {
+        inherit: "inherit"
+      },
+      height: {
+        inherit: "inherit"
+      },
     },
   },
   variants: {
