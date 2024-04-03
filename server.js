@@ -99,6 +99,11 @@ configDatabase()
         });
         app.use(passport.initialize());
         app.use(passport.session());
+        app.use(async (req, res, next) => {
+            var info = await Pudding.globalConfig();
+            req.server = { config: info };
+            next();
+        });
 
         app.use("/api", apiRouter(db, Pudding, { passport }));
         app.use("/", pagesRedirect(db));
