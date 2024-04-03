@@ -7,6 +7,9 @@
  * @property {function} getRecoverPasswordCode - Método gerar e salvar o codigo de recuperação
  * @property {function} recoverPasswordCode - Método para verificar o codigo de verificação é remover do banco de dados
  * @property {function} passwordUpdate - Método para mudar senha do usuário
+ * @property {function} globalConfig - Método para ver todos os dados de configuração
+ * @property {function} globalConfigDelete
+ * @property {function} globalConfigUpdate
 */
 
 /**
@@ -21,7 +24,7 @@
  */
 
 const { initializeApp } = require('firebase/app');
-const { getDatabase, ref, set, child, get, update } = require('firebase/database');
+const { getDatabase, ref, set, child, get, update, remove } = require('firebase/database');
 const bcrypt = require('bcrypt');
 const ConfigProject = require('../config');
 
@@ -134,6 +137,32 @@ module.exports.configDatabase = () => {
                     console.error(error);
                     return false;
                 }
+            }
+
+            static globalConfig = async () => {
+                try {
+                    const data = await get(child(ref(db), `config`));
+                    return data.val();
+                } catch (err) { return null }
+            }
+
+            static globalConfigDelete = async (data) => {
+                try {
+                    await remove(ref(db, `config/${data}`));
+                    const data = await get(child(ref(db), `config`));
+                    return data.val();
+                } catch (err) { return null }
+            }
+            static globalConfigUpdate = async (data) => {
+                try {
+                    await update(ref(db, `config`), { data });
+                    const data = await get(child(ref(db), `config`));
+                    return data.val();
+                } catch (err) { 
+                    await set(ref(db, `config`), { data });
+                    const data = await get(child(ref(db), `config`));
+                    return data.val();
+                 }
             }
         }
 
