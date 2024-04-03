@@ -798,6 +798,32 @@ $(document).ready(async function () {
                 .attr("disabled", false);
         }
     });
+
+    fetch(apiVersionURL("v1", "/config/modules"))
+        .then(async res => await res.json())
+        .then(async json => {
+            const config = json.config;
+
+            if (!config) return;
+
+            if (config.warnbar) {
+                var d = $("#warn-bar");
+                var title = $("#text-warn-bar");
+                var color = $("#color-earn-bar");
+                var colors = {
+                    "WARN": "#342B10",
+                    "DANGER": "#341010",
+                    "OK": "#113410"
+                }
+
+                d.removeClass("hidden");
+                title.text(config.warnbar.title);
+                color.text(colors[config.warnbar.color]);
+            }
+        })
+        .catch(err => {
+            notifyView({ content: "Aparentemente você não esta conectado a internet...", type: 1 })
+        })
 })
 
 function notifyView({ content, type = 0 }) {
