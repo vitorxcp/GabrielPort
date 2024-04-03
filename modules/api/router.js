@@ -14,6 +14,10 @@ const ConfigProject = require("../../config");
  * @property {function} getRecoverPasswordCode - Método gerar e salvar o codigo de recuperação
  * @property {function} recoverPasswordCode - Método para verificar o codigo de verificação é remover do banco de dados
  * @property {function} passwordUpdate - Método para mudar senha do usuário
+ * @property {function} globalConfig - Método para ver todos os dados de configuração
+ * @property {function} globalConfigDelete
+ * @property {function} globalConfigUpdate
+ * 
  */
 
 /**
@@ -224,5 +228,38 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         if (modf === true) return res.status(200).send({ message: "Senha alterada com sucesso!" });
         else return res.status(500).send({ message: "Erro para alterar senha, tente novamente mais tarde..." })
     })
+
+    app.get("/config/modules", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...");
+
+        res.status(200).send(req.server);
+    })
+
+    app.post("/config/modules", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...");
+
+        if (!req.body) return res.status(500).send({ message: "Formulario invalido." })
+
+        const update = await Pudding.globalConfigUpdate(req.body);
+
+        if (update) return res.status(200).send({ message: "Alterado com sucesso!" });
+        else res.status(404).send({ message: "Erro para salvar..." });
+
+    })
+
+    app.delete("/config/modules", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...");
+
+        if (!req.body) return res.status(500).send({ message: "Formulario invalido." })
+
+        const update = await Pudding.globalConfigDelete(req.body);
+
+        if (update) return res.status(200).send({ message: "Deletado com sucesso!" });
+        else res.status(404).send({ message: "Erro para deletar..." });
+    })
+
     return app;
 }
