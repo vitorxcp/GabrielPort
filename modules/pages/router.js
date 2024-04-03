@@ -76,6 +76,14 @@ module.exports.pagesRedirect = (db, Pudding) => {
         })
     })
 
+    app.get("/admin/pages/index", async (req, res) => {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
+        res.render("admin/pages/index.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user
+        })
+    })
+
     app.use(express.static('views'));
 
     app.get("*", function (req, res) {
