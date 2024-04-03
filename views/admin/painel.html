@@ -19,6 +19,53 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
     <script src="/js/main.js"></script>
+    <script>
+        $(document).ready(function (V) {
+            $("body").on("click", "#img-edaw1", function (v) {
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Link da Imagem</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="url" name="image-url" id="image-url">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="image-send-url" type="submit">Confirmar</button>
+                        </form>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            })
+            $("#warn-type").change(function (v) {
+                var drf = $(this).prop('checked');
+                if (drf === true) {
+                    $("#preview-bar-warn").removeClass("opacity-50");
+                } else {
+                    $("#preview-bar-warn").addClass("opacity-50");
+                }
+            })
+
+            $("#preview-bar-warn").addClass("opacity-50");
+            $("#color-bar-warn").addClass("bg-[#342B10]");
+            $("#text-bar-warn").text("Site em construção, varios sistemas podem não funcionar corretamente.");
+
+            $()
+        })
+    </script>
 </head>
 
 <body class="bg-[#0B0E13] font-sans text-white">
@@ -96,7 +143,7 @@
                                 id="open-bars"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
-        <div id="warn-bar">
+        <div id="warn-bar" class="hidden">
             <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
                 <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
                     sistemas
@@ -162,13 +209,13 @@
                     <div class="flex gap-8">
                         <div class="flex">
                             <div class="flex flex-col items-center justify-center">
-                                <div
-                                    class="bg-[#262F41] flex justify-center items-center rounded-full w-[150px] h-[150px] cursor-pointer group">
+                                <div class="bg-[#262F41] flex justify-center items-center rounded-full w-[150px] h-[150px] cursor-pointer group"
+                                    id="img-edaw1">
                                     <span
                                         class="text-gray-500 uppercase transition opacity-0 group-hover:opacity-100">Alterar
                                         Foto</span>
                                     <div
-                                        class="absolute bg-[#374D79] rounded-full w-[40px] h-[40px] mt-[-110px] ml-[110px] flex justify-center items-center">
+                                        class="absolute bg-[#374D79] rounded-full w-[40px] h-[40px] mt-[-110px] ml-[110px] flex justify-center items-center transition opacity-0 group-hover:opacity-100">
                                         <span><i class="fa-solid fa-pen text-[18px] text-gray-400 mt-[5px]"></i></span>
                                     </div>
                                 </div>
@@ -183,7 +230,8 @@
                                 imagem é
                                 de 512x512.</h1>
                             <button
-                                class="w-full border-[2px] border-[#404040] bg-transparent rounded-lg p-2 text-[18px] text-[#A3A3A3]">Trocar
+                                class="w-full border-[2px] border-[#404040] bg-transparent rounded-lg p-2 text-[18px] text-[#A3A3A3]"
+                                id="img-edaw1">Trocar
                                 Imagem</button>
                             <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Imagem padrão, usada para
                                 mostrar
@@ -231,23 +279,17 @@
                         </div>
                     </div>
                     <div>
-
                         <label class="switch">
-                            <input type="checkbox" name="number_count" id="number-count">
+                            <input type="checkbox" name="warn-type" id="warn-type">
                             <div class="slider round"></div>
                         </label>
                     </div>
                 </div>
                 <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Mensagem mostrada em baixo da navbar
                     (previa a baixo).</p>
-                <div class="mt-5" id="preview-bar-warn">
-                    <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
-                        <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção,
-                            varios
-                            sistemas
-                            podem não
-                            funcionar
-                            corretamente.</span>
+                <div class="mt-5 transition" id="preview-bar-warn">
+                    <div class="flex justify-center w-full" id="color-bar-warn">
+                        <span class="text-[#8D8879] self-center text-center" id="text-bar-warn"></span>
                     </div>
                 </div>
             </div>
