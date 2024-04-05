@@ -50,20 +50,180 @@
                     visibilityOrHiddenPop();
                 }, 150)
             })
-            $("#warn-type").change(function (v) {
+            $("body").on("click", "#image-send-url", function () {
+                $(this).html(reloadAnimationHTML(this))
+                let imageUrl = document.getElementById('image-url').value;
+                if (ValidateImageURL(imageUrl)) {
+                    fetch(apiVersionURL("v1", "/config/modules"), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({
+                            "image-url": imageUrl
+                        })
+                    }).then(async res => await res.json())
+                        .then(async json => {
+                            $("#view-pop").addClass("opacity-0")
+                            setTimeout(() => {
+                                $("#view-pop").removeClass("flex")
+                                $("#view-pop").removeClass("scale-[1.05]");
+                                $("#view-pop").addClass("hidden")
+                            }, 100);
+
+                            $("#img-edaw1").css({
+                                "background-image": "url(" + imageUrl + ")",
+                                "background-repeat": "round"
+                            })
+                        })
+                } else {
+                    $("#image-url").focus();
+                    $(this).html("Salvar")
+                        .attr("disabled", false)
+                }
+            });
+            $("#warn-activate").on("change", function (v) {
                 var drf = $(this).prop('checked');
+
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.object : false) : false) !== drf) $("#save-new-warnbar").removeClass("hidden");
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.object : false) : false) === drf) $("#save-new-warnbar").addClass("hidden");
                 if (drf === true) {
                     $("#preview-bar-warn").removeClass("opacity-50");
                 } else {
                     $("#preview-bar-warn").addClass("opacity-50");
                 }
             })
-
+            $("#remove-image").click(function () {
+                reloadAnimationHTML(this, "27px");
+                fetch(apiVersionURL("v1", "/config/modules"), {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                        "Body-Delete": "image-url"
+                    },
+                    body: JSON.stringify({
+                        "delete": "image-url"
+                    })
+                }).then(async res => await res.json())
+                    .then(async json => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Deletar")
+                        $("#img-edaw1").css({
+                            "background-image": "",
+                            "background-repeat": "round"
+                        })
+                    })
+            })
             $("#preview-bar-warn").addClass("opacity-50");
             $("#color-bar-warn").addClass("bg-[#342B10]");
             $("#text-bar-warn").text("Site em construção, varios sistemas podem não funcionar corretamente.");
+            $("#title-page-promt").on("keyup", function () {
+                var titulo = $("#title-page-promt").val();
+                if (String(titulo).trim()) {
+                    $("#title-page-view").text(titulo);
+                    if ((serverInfo ? serverInfo.title : "") !== titulo) $("#save-new-title").removeClass("hidden");
+                    if ((serverInfo ? serverInfo.title : "") === titulo) $("#save-new-title").addClass("hidden");
+                }
+            })
+            $("#text-warnbar-content").on("keyup", function (v) {
+                var texto = $("#text-warnbar-content").val();
+                $("#text-bar-warn").text(texto);
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.title : "") : "") !== texto) $("#save-new-warnbar").removeClass("hidden");
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.title : "") : "") === texto) $("#save-new-warnbar").addClass("hidden");
+            })
+            $("#warnbar-select-type").on("change", function () {
+                var tipo = $("#warnbar-select-type").val();
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.type : "WARN") : "WARN") !== tipo) $("#save-new-warnbar").removeClass("hidden");
+                if ((serverInfo ? (serverInfo.warnbar ? serverInfo.warnbar.type : "WARN") : "WARN") === tipo) $("#save-new-warnbar").addClass("hidden");
 
-            $()
+                var colors = {
+                    "WARN": "#342B10",
+                    "DANGER": "#341010",
+                    "OK": "#113410"
+                }
+
+                $("#color-bar-warn")
+                    .removeClass()
+                    .addClass(`flex justify-center w-full rounded`)
+                    .css({"backgroundColor": colors[tipo]})
+            })
+            $("#save-new-title").on("click", function () {
+                reloadAnimationHTML(this, "24px");
+                fetch(apiVersionURL("v1", "/config/modules"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({
+                        "title": $("#title-page-promt").val()
+                    })
+                }).then(async res => await res.json())
+                    .then(async json => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                        $("#title-page-view").text($("#title-page-promt").val())
+                    })
+            })
+            $("#save-new-warnbar").on("click", function () {
+                reloadAnimationHTML(this, "24px");
+                fetch(apiVersionURL("v1", "/config/modules"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({
+                        "warnbar": {
+                            "title": $("#text-warnbar-content").val(),
+                            "type": $("#warnbar-select-type").val(),
+                            "object": $("#warn-activate").prop('checked') ?? false
+                        }
+                    })
+                }).then(async res => await res.json())
+                    .then(async json => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                    })
+            });
+            // $("#")
+            // $("#")
+
+            var intervalServer = setInterval(() => {
+                var config = serverInfo;
+                if (!config) return;
+                clearInterval(intervalServer);
+                var d = $("#preview-bar-warn");
+                var title = $("#text-bar-warn");
+                var color = $("#color-bar-warn");
+                var colors = {
+                    "WARN": "#342B10",
+                    "DANGER": "#341010",
+                    "OK": "#113410"
+                }
+
+                $("#img-edaw1").css({
+                    "background-image": "url(" + config["image-url"] + ")",
+                    "background-repeat": "round"
+                })
+
+                d.removeClass("hidden");
+                title.text(config ? (config.warnbar ? config.warnbar.title : title.text()) : title.text());
+                $("#color-bar-warn").removeClass("bg-[#342B10]")
+                .css({"backgroundColor": colors[config.warnbar ? config.warnbar.type : "WARN"] });
+                $("#title-page-view").text(config.title);
+                $("#title-page-promt").val(config.title)
+                $("#text-bar-warn").text((config ? (config.warnbar ? config.warnbar.title : "") : ""));
+                $("#text-warnbar-content").val((config ? (config.warnbar ? config.warnbar.title : "") : ""))
+                $("#warnbar-select-type").val((config ? (config.warnbar ? config.warnbar.type : "WARN") : "WARN"))
+                $("")
+                if ((config ? (config.warnbar ? config.warnbar.object : false) : false) === true) $("#warn-activate").attr("checked", true)
+            })
+
         })
     </script>
 </head>
@@ -87,7 +247,7 @@
             <div class="flex">
                 <a href="/">
                     <img class="w-[150px] h-[50px] rounded-md"
-                        src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                        src="https://cdn.discordapp.com/attachments/1009566680520851526/1225497080001462425/image-removebg-preview_1.png?ex=66215818&is=660ee318&hm=67d4dd4e3351d9887cd2cb318a4000887583f15db34c139e0e0bb8b7201eadd8&"
                         alt="Logo">
                 </a>
             </div>
@@ -145,7 +305,7 @@
         </div>
         <div id="warn-bar" class="hidden">
             <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
-                <span class="text-[#8D8879] self-center text-center" id=" text-warn-bar">Site em construção, varios
+                <span class="text-[#8D8879] self-center text-center" id="text-warn-bar">Site em construção, varios
                     sistemas
                     podem não
                     funcionar
@@ -219,12 +379,13 @@
                                         <span><i class="fa-solid fa-pen text-[18px] text-gray-400 mt-[5px]"></i></span>
                                     </div>
                                 </div>
-                                <span class="text-red-400 text-[18px] mt-[5px] cursor-pointer">Deletar</span>
+                                <button class="text-red-400 text-[18px] mt-[5px] cursor-pointer"
+                                    id="remove-image">Deletar</button>
                             </div>
-                            <div></div>
                         </div>
                         <div class="w-[330px]">
-                            <h1 class="w-full text-[20px] text-[rgba(255,255,255,0.44)] mb-[5px]">Tamanho recomendável
+                            <h1 class="w-full text-[20px] text-[rgba(255,255,255,0.44)] mb-[5px]">Tamanho
+                                recomendável
                                 para
                                 a
                                 imagem é
@@ -233,7 +394,8 @@
                                 class="w-full border-[2px] border-[#404040] bg-transparent rounded-lg p-2 text-[18px] text-[#A3A3A3]"
                                 id="img-edaw1">Trocar
                                 Imagem</button>
-                            <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Imagem padrão, usada para
+                            <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Imagem padrão, usada
+                                para
                                 mostrar
                                 junto com
                                 o link.</p>
@@ -245,11 +407,15 @@
                                 class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
                                 Nome</h1>
                             <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
-                                type="email" name="email" id="login-email">
+                                type="text" name="title" id="title-page-promt">
                         </div>
-                        <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px] w-full">* Este nome será mostrado
+                        <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px] w-full">* Este nome será
+                            mostrado
                             com
-                            título da pagina (ex: Página Inicial - {nome}).</p>
+                            título da pagina (ex: Página Inicial - <span id="title-page-view">{nome}</span>).</p>
+                        <button
+                            class="bg-green-700 hover:bg-green-900 transition rounded-md p-3 pt-1 pb-1 mt-[10px] hidden"
+                            id="save-new-title">Salvar</button>
                     </div>
                 </div>
                 <hr class="border-[0px] bg-[rgba(55,106,183,0.21)] w-full h-[2px] rounded-full mt-[30px] mb-[50px]">
@@ -261,7 +427,7 @@
                                 class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
                                 Mensagem</h1>
                             <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
-                                type="email" name="email" id="login-email"
+                                type="text" name="text" id="text-warnbar-content"
                                 value="Site em construção, varios sistemas podem não funcionar corretamente.">
                         </div>
                         <div class="bg-[#1A2431] rounded-md w-[200px] h-min mt-[10px] shadow-[#0F131A] shadow-xl">
@@ -269,18 +435,19 @@
                                 class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
                                 Tipo</h1>
                             <select
-                                class="bg-[#1D4272] rounded-[3px] text-white text-opacity-60 p-2 pb-[0.65rem] pl-3 pr-3 text-[18px] bg-transparent pt-[18px] w-[100%]">
+                                class="bg-[#1D4272] rounded-[3px] text-white text-opacity-60 p-2 pb-[0.65rem] pl-3 pr-3 text-[18px] bg-transparent pt-[18px] w-[100%]"
+                                id="warnbar-select-type">
                                 <optgroup label="Tipo de Anuncio" class="bg-[#1D4272]">
-                                    <option value="warn" selected>Aviso</option>
-                                    <option value="error">Erro</option>
-                                    <option value="correct">Sucesso</option>
+                                    <option value="WARN" selected>Aviso</option>
+                                    <option value="DANGER">Erro</option>
+                                    <option value="OK">Sucesso</option>
                                 </optgroup>
                             </select>
                         </div>
                     </div>
                     <div>
                         <label class="switch">
-                            <input type="checkbox" name="warn-type" id="warn-type">
+                            <input type="checkbox" name="warn-type" id="warn-activate">
                             <div class="slider round"></div>
                         </label>
                     </div>
@@ -288,10 +455,12 @@
                 <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Mensagem mostrada em baixo da navbar
                     (previa a baixo).</p>
                 <div class="mt-5 transition" id="preview-bar-warn">
-                    <div class="flex justify-center w-full" id="color-bar-warn">
+                    <div class="flex justify-center w-full rounded" id="color-bar-warn">
                         <span class="text-[#8D8879] self-center text-center" id="text-bar-warn"></span>
                     </div>
                 </div>
+                <button class="bg-green-700 hover:bg-green-900 transition rounded-md p-3 pt-1 pb-1 mt-[10px] hidden"
+                    id="save-new-warnbar">Salvar</button>
             </div>
         </div>
     </section>
@@ -303,7 +472,7 @@
         <div class="flex">
             <a href="/">
                 <img class="w-[310px] h-[100px] rounded-md"
-                    src="https://cdn.discordapp.com/attachments/520564221264658433/1220083539094274128/image-removebg-preview_1.png?ex=660da657&is=65fb3157&hm=d9c49c89f79a7fe0601e87ee3416e03370bd3ca950248bc79fee44ee0b9abbe4&"
+                    src="https://cdn.discordapp.com/attachments/1009566680520851526/1225497080001462425/image-removebg-preview_1.png?ex=66215818&is=660ee318&hm=67d4dd4e3351d9887cd2cb318a4000887583f15db34c139e0e0bb8b7201eadd8&"
                     alt="Logo">
             </a>
         </div>
