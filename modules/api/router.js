@@ -230,9 +230,6 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
     })
 
     app.get("/config/modules", async function (req, res) {
-        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
-            return res.status(500).send("Você não possuí permissão para isso...");
-
         res.status(200).send(req.server);
     })
 
@@ -253,9 +250,9 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
             return res.status(500).send("Você não possuí permissão para isso...");
 
-        if (!req.body) return res.status(500).send({ message: "Formulario invalido." })
+        if (!req.body || !req.body.delete) return res.status(500).send({ message: "Formulario invalido." })
 
-        const update = await Pudding.globalConfigDelete(req.body);
+        const update = await Pudding.globalConfigDelete(req.body.delete);
 
         if (update) return res.status(200).send({ message: "Deletado com sucesso!" });
         else res.status(404).send({ message: "Erro para deletar..." });
