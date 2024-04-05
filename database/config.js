@@ -146,23 +146,26 @@ module.exports.configDatabase = () => {
                 } catch (err) { return null }
             }
 
-            static globalConfigDelete = async (data) => {
+            static globalConfigDelete = async (configId) => {
                 try {
-                    await remove(ref(db, `config/${data}`));
-                    const data = await get(child(ref(db), `config`));
-                    return data.val();
-                } catch (err) { return null }
+                    await remove(ref(db, `config/${configId}`));
+                    const configData = await get(child(ref(db), `config`));
+                    return configData.val();
+                } catch (err) {
+                    console.error(err);
+                    return null;
+                }
             }
-            static globalConfigUpdate = async (data) => {
+            static globalConfigUpdate = async (dataToUpdate) => {
                 try {
-                    await update(ref(db, `config`), { data });
                     const data = await get(child(ref(db), `config`));
-                    return data.val();
-                } catch (err) { 
-                    await set(ref(db, `config`), { data });
-                    const data = await get(child(ref(db), `config`));
-                    return data.val();
-                 }
+                    await update(ref(db, `config`), dataToUpdate);
+                    const updatedData = await get(child(ref(db), `config`));
+                    return updatedData.val();
+                } catch (err) {
+                    console.error(err);
+                    return null;
+                }
             }
         }
 
