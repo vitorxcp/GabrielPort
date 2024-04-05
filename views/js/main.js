@@ -2,6 +2,7 @@
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 var userInfo = {};
+var serverInfo = null;
 
 gtag('js', new Date());
 
@@ -804,22 +805,63 @@ $(document).ready(async function () {
         .then(async json => {
             const config = json.config;
 
-            if (!config) return;
+            if (!config) {
+                serverInfo = null;
+                return;
+            } else {
+                serverInfo = config;
+            }
 
             if (config.warnbar) {
                 var d = $("#warn-bar");
-                var title = $("#text-warn-bar");
-                var color = $("#color-earn-bar");
                 var colors = {
                     "WARN": "#342B10",
                     "DANGER": "#341010",
                     "OK": "#113410"
                 }
 
-                d.removeClass("hidden");
-                title.text(config.warnbar.title);
-                color.text(colors[config.warnbar.color]);
+                if (config.warnbar ? config.warnbar.object : false) {
+                    d.removeClass("hidden");
+                    $("#text-warn-bar").text(config.warnbar.title);
+                    $("#color-warn-bar")
+                    .removeClass("bg-[#342B10]")
+                        .css({ "backgroundColor": colors[config.warnbar.type]});
+                }
             }
+
+            setInterval(() => {
+                fetch(apiVersionURL("v1", "/config/modules"))
+                    .then(async res => await res.json())
+                    .then(async json => {
+                        const config = json.config;
+
+                        if (!config) {
+                            serverInfo = null;
+                            return;
+                        } else {
+                            serverInfo = config;
+                        }
+
+                        if (config.warnbar) {
+                            var d = $("#warn-bar");
+                            var colors = {
+                                "WARN": "#342B10",
+                                "DANGER": "#341010",
+                                "OK": "#113410"
+                            }
+                            if(config.warnbar ? config.warnbar.object : false) {
+                                d.removeClass("hidden");
+                                $("#text-warn-bar").text(config.warnbar.title);
+                                $("#color-warn-bar")
+                                    .removeClass("bg-[#342B10]")
+                                    .css({ "backgroundColor": colors[config.warnbar.type] });
+                            } else d.addClass("hidden");
+                        }
+                    })
+                    .catch(err => {
+                        notifyView({ content: "Aparentemente você não esta conectado a internet...", type: 1 })
+                    })
+            }, 5000)
         })
         .catch(err => {
             notifyView({ content: "Aparentemente você não esta conectado a internet...", type: 1 })
@@ -873,4 +915,9 @@ function reloadAnimationHTML(element, width = "30px", height = width) {
 
 function apiVersionURL(version, url) {
     return `/api/${url}`;
+}
+
+function ValidateImageURL(string) {
+    const res = string.match(/(http|https):\/\/.*\/([^\s]+.\w{2,4})$/);
+    return res !== null && res.length > 0 ? true : false;
 }
