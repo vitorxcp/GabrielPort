@@ -822,10 +822,10 @@ $(document).ready(async function () {
 
                 if (config.warnbar ? config.warnbar.object : false) {
                     d.removeClass("hidden");
-                    $("#text-warn-bar").text(config.warnbar.title);
+                    $("#text-warn-bar").html(marked.parse(config.warnbar.title));
                     $("#color-warn-bar")
-                    .removeClass("bg-[#342B10]")
-                        .css({ "backgroundColor": colors[config.warnbar.type]});
+                        .removeClass("bg-[#342B10]")
+                        .css({ "backgroundColor": colors[config.warnbar.type] });
                 }
             }
 
@@ -849,9 +849,9 @@ $(document).ready(async function () {
                                 "DANGER": "#341010",
                                 "OK": "#113410"
                             }
-                            if(config.warnbar ? config.warnbar.object : false) {
+                            if (config.warnbar ? config.warnbar.object : false) {
                                 d.removeClass("hidden");
-                                $("#text-warn-bar").text(config.warnbar.title);
+                                $("#text-warn-bar").html(marked.parse(config.warnbar.title));
                                 $("#color-warn-bar")
                                     .removeClass("bg-[#342B10]")
                                     .css({ "backgroundColor": colors[config.warnbar.type] });
@@ -859,12 +859,12 @@ $(document).ready(async function () {
                         }
                     })
                     .catch(err => {
-                        notifyView({ content: "Aparentemente você não esta conectado a internet...", type: 1 })
+                        notifyView({ content: "Ocorreu algum erro interno, reinicie a página ou tente novamente!", type: 1 })
                     })
             }, 5000)
         })
         .catch(err => {
-            notifyView({ content: "Aparentemente você não esta conectado a internet...", type: 1 })
+            notifyView({ content: "Aparentemente você não esta conectado a internet!", type: 1 })
         })
 })
 
