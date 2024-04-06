@@ -1,0 +1,13 @@
+{
+    "name": "Portfólio de Gabriel Felipe Martins",
+    "short_name": "Gabriel Martins",
+    "author": "vitor_xp",
+    "version": "0.0.1",
+    "version_name": "0.0.1 beta",
+    "start_url": "/dashboard",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#151b24",
+    "background_color": "#0B0E13",
+    "description": "O Portfólio do Pré-Candidato a Vereador Gabriel Felipe Martins é um projeto dedicado a fornecer informações claras e transparentes aos eleitores de Várzea Grande. Esperamos que este portfólio ajude a fortalecer a conexão entre o pré-candidato e a comunidade, promovendo assim uma participação cívica mais informada e engajada."
+}
