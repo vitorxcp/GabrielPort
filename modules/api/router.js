@@ -258,5 +258,10 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         else res.status(404).send({ message: "Erro para deletar..." });
     })
 
+    app.get("/config/users/permissions", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...");
+    })
+
     return app;
 }
