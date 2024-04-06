@@ -12,6 +12,9 @@
  * @property {function} getRecoverPasswordCode - Método gerar e salvar o codigo de recuperação
  * @property {function} recoverPasswordCode - Método para verificar o codigo de verificação é remover do banco de dados
  * @property {function} passwordUpdate - Método para mudar senha do usuário
+ * @property {function} globalConfig - Método para ver todos os dados de configuração
+ * @property {function} globalConfigDelete
+ * @property {function} globalConfigUpdate
  */
 
 /**
@@ -28,35 +31,45 @@ module.exports.pagesRedirect = (db, Pudding) => {
     app.get("/", function (req, res) {
         res.render("index.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
     app.get("/biography", function (req, res) {
         res.render("biography.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
     app.get("/blog", function (req, res) {
         res.render("blog.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
     app.get("/galery", function (req, res) {
         res.render("galery.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
     app.get("/textest", function (req, res) {
         res.render("textecss.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
@@ -64,7 +77,9 @@ module.exports.pagesRedirect = (db, Pudding) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
         res.render("admin/painel.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
@@ -72,7 +87,9 @@ module.exports.pagesRedirect = (db, Pudding) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
         res.render("admin/permissions.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
@@ -80,7 +97,9 @@ module.exports.pagesRedirect = (db, Pudding) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
         res.render("admin/pages/index.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
@@ -89,7 +108,9 @@ module.exports.pagesRedirect = (db, Pudding) => {
     app.get("*", function (req, res) {
         res.render("404.html", {
             Auth: req.isAuthenticated(),
-            user: req.user
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
         })
     })
 
