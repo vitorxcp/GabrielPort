@@ -17,7 +17,8 @@ const ConfigProject = require("../../config");
  * @property {function} globalConfig - Método para ver todos os dados de configuração
  * @property {function} globalConfigDelete
  * @property {function} globalConfigUpdate
- * 
+ * @property {function} getUsers
+ * @property {function} setUserPermission
  */
 
 /**
@@ -258,10 +259,68 @@ module.exports.apiRouter = (db, Pudding, { passport }) => {
         else res.status(404).send({ message: "Erro para deletar..." });
     })
 
+    app.get("/admin/search/user/:search", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...")
+
+        if (req.params && !req.params.search) {
+            return res.status(500).send({ message: "Campo email obrigatório." });
+        }
+
+        var users = await Pudding.getUsers();
+        var usersP = [];
+
+        if (users) {
+            for (i in users) {
+                if (String(i).replaceAll("_", ".").includes(req.params.search)) {
+                    var user = users[i];
+                    user.password = "Safado"
+                    user.email = String(user.email).replaceAll("_", ".");
+                    usersP.push(user);
+                }
+            }
+            res.status(200).send(usersP);
+        } else res.status(501).send("Ocorreu um erro ao buscar os usuários.");
+    })
+
     app.get("/config/users/permissions", async function (req, res) {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
             return res.status(500).send("Você não possuí permissão para isso...");
+
+        var users = await Pudding.getUsers();
+
+        var usersP = [];
+
+        if (users) {
+            for (i in users) {
+                var user = users[i];
+                user.password = "tem nd aqui não safado...";
+                user.email = String(user.email).replaceAll("_", ".");
+
+                if (user.permissions) {
+                    usersP.push(user);
+                }
+            }
+            res.status(200).send(usersP);
+        } else res.status(501).send("Ocorreu um erro ao buscar os usuários.");
     })
 
+    app.put("/config/user/permission", async function (req, res) {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null))
+            return res.status(500).send("Você não possuí permissão para isso...");
+        if (!req.body || !req.body.email || !req.body.permissions) return res.status(500).send({ message: "Formulario invalido." })
+
+        const email = String(req.body.email).replaceAll(".", "_");
+        let permissions = req.body.permissions;
+
+        var user = await Pudding.getAccount(email);
+        if (!user) return res.status(404).send({ message: `Usuário não encontrado.` });
+
+        if (await Pudding.setUserPermission(email, permissions)) {
+            return res.status(200).send({ message: "Permissões atualizadas com sucesso!" });
+        } else {
+            return res.status(501).send(`Erro no servidor ao atualizar as permissões do usuário.`);
+        }
+    })
     return app;
 }
