@@ -10,6 +10,8 @@
  * @property {function} globalConfig - Método para ver todos os dados de configuração
  * @property {function} globalConfigDelete
  * @property {function} globalConfigUpdate
+ * @property {function} getUsers
+ * @property {function} setUserPermission
 */
 
 /**
@@ -156,11 +158,30 @@ module.exports.configDatabase = () => {
                     return null;
                 }
             }
+
             static globalConfigUpdate = async (dataToUpdate) => {
                 try {
                     const data = await get(child(ref(db), `config`));
                     await update(ref(db, `config`), dataToUpdate);
                     const updatedData = await get(child(ref(db), `config`));
+                    return updatedData.val();
+                } catch (err) {
+                    console.error(err);
+                    return null;
+                }
+            }
+
+            static getUsers = async () => {
+                try {
+                    const data = await get(child(ref(db), `auth/accounts`));
+                    return data.val();
+                } catch (err) { return null }
+            }
+
+            static setUserPermission = async (email, permissions) => {
+                try {
+                    await update(ref(db, `auth/accounts/${email}/permissions`), permissions);
+                    const updatedData = await get(child(ref(db), `auth/accounts/${email}`));
                     return updatedData.val();
                 } catch (err) {
                     console.error(err);
