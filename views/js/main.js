@@ -58,6 +58,26 @@ $(document).ready(function (event) {
         $("body").addClass("overflow-hidden");
     })
 
+    $("#bar-view-painel").click(function (v) {
+        $("#mobile-view-painel").removeClass("hidden");
+        setTimeout(() => {
+            $("#mobile-view-painel").addClass("flex translate-x-0")
+                .css({
+                    "--tw-translate-x": "0px",
+                });
+        }, 100)
+        $("body").addClass("overflow-hidden");
+    })
+
+    $("#close-bars-p").click(function (v) {
+        $("#mobile-view-painel").removeClass("flex translate-x-0")
+            .css({
+                "--tw-translate-x": "-100%"
+            });
+        setTimeout(() => { $("#mobile-view-painel").addClass("hidden"); }, 300)
+        $("body").removeClass("overflow-hidden");
+    })
+
     $("#close-bars").click(function (v) {
         $("#mobile-view").removeClass("flex translate-x-0")
             .css({
