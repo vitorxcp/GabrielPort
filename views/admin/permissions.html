@@ -51,10 +51,269 @@
     <script src="/js/main.js"></script>
     <script>
         $(document).ready(function () {
+            $("body").on("click", ".userConfigPermissions", function () {
+                var email = $(this).attr("email");
+
+                $("#view-pop").addClass("opacity-0")
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                        <div class="flex justify-center items-center p-5 w-full">
+                            <svg class="spinner" width="30px" height="30px" viewBox="0 0 66 66"
+                            xmlns="http://www.w3.org/2000/svg">
+                                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+                                r="30"></circle>
+                            </svg>
+                        </div>
+                        `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+
+                    fetch(apiVersionURL("v1", "/admin/search/user/"+email))
+                        .then(response => response.json())
+                        .then(async (data) => {
+                            var permissions = data[0].permissions;
+
+                            PopContent({
+                                element: `
+                        <h1 class="font-medium uppercase text-[30px] font-['Heavitas'] mt-[5px] mb-[5px]">Permissões:</h1>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Administrador</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-admin" ${permissions ? (permissions["admin"] ? "checked" : "") : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Gerencias Publicações</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-publi" ${permissions ? (permissions["admin"] ? "checked" : (permissions["publi"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Publicar Publicações</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-publi-add" ${permissions ? (permissions["admin"] ? "checked" : (permissions["publi-add"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Editar Publicações</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-publi-edit" ${permissions ? (permissions["admin"] ? "checked" : (permissions["publi-edit"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Excluir Publicações</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-publi-remove" ${permissions ? (permissions["admin"] ? "checked" : (permissions["publi-remove"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Gerenciar Galeria</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-galery" ${permissions ? (permissions["admin"] ? "checked" : (permissions["galery"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Publicar Fotos na Galeria</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-galery-add" ${permissions ? (permissions["admin"] ? "checked" : (permissions["galery-add"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="justify-between flex items-center">
+                            <div>
+                                <h1>Deletar Fotos da Galeria</h1>
+                            </div>
+                            <div>
+                                <label class="switch mt-[8px]">
+                                    <input type="checkbox" name="warn-type" id="perm-galery-remove" ${permissions ? (permissions["admin"] ? "checked" : (permissions["galery-remove"] ? "checked" : "")) : ""}>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-1 mt-[15px] rounded-md transition text-[18px]"
+                        id="save-alt-permission" email="${email}" type="submit">Salvar Alterações</button>
+                        `,
+                                classes: "flex flex-col justify-center p-5",
+                                pop_display_delete: "w-[350px] h-[150px]",
+                                pop_display_add: "w-[400px]"
+                            })
+
+                        })
+                }, 150)
+            })
+            $("body").on("click", ".userAdd", function () {
+                $("#view-pop").addClass("opacity-0")
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                        <h1 class="uppercase text-[25px] font-['Heavitas'] mt-[5px] mb-[5px]">Pesquisar por Email:</h1>
+
+                        <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            E-mail</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="email" name="email" id="email-search-user">
+                    </div>
+                    <div class="flex flex-col gap-1" id="search-user-emails-view">
+                    </div>
+                        `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                })
+            })
+            $("body").on("keyup", "#email-search-user", function (e) {
+                if (e.keyCode == 13) {
+                    let searchUserEmailsView = $("#search-user-emails-view")
+                    searchUserEmailsView.html(`
+                            <div class="justify-center items-center flex w-full mt-[15px]">
+                        <svg class="spinner" width="30px" height="30px" viewBox="0 0 66 66"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+                                r="30"></circle>
+                        </svg>
+                    </div>
+                            `);
+                    fetch(apiVersionURL("v1", "/admin/search/user/"+$(this).val()))
+                        .then((response) => response.json())
+                        .then((data) => {
+                            searchUserEmailsView.html(`<p class="text-[#fafafa94] mt-[10px] mb-[2px]">Resultados:</p>`)
+                            data.forEach((element) => {
+                                searchUserEmailsView.append(`
+                        <div class="userConfigPermissions" email="${element.email}">
+                            <div class="flex items-center gap-4 bg-[#3942561f] rounded-lg p-2 pl-4 pr-4 hover:bg-[#5361801f] cursor-pointer transition">
+                             <div>
+                                <div class="bg-[#292B32] rounded-full w-[42px] h-[42px]"></div>
+                             </div>
+                             <div class="flex flex-col">
+                                <span class="text-[18px]">${element.name}</span>
+                                <span class="text-[#fafafa9c] mt-[-5px]">${element.email}</span>
+                            </div>
+                         </div>
+                        </div>`)
+                            })
+                        })
+                                
+                }
+            })
+            $("body").on("click", "#save-alt-permission", function () {
+                reloadAnimationHTML(this, "27px");
+                let email = $(this).attr("email");
+                let permissions = {
+                    "admin": $("#perm-admin")[0].checked,
+                    "publi": $("#perm-publi")[0].checked,
+                    "publi-add" : $("#perm-publi-add")[0].checked,
+                    "publi-remove": $("#perm-publi-remove")[0].checked,
+                    "publi-edit": $("#perm-publi-edit")[0].checked,
+                    "galery": $("#perm-galery")[0].checked,
+                    "galery-add": $("#perm-galery-add")[0].checked,
+                    "galery-remove": $("#perm-galery-remove")[0].checked,
+                };
+                
+                fetch(apiVersionURL("v1", "/config/user/permission"), {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "email": email,
+                        "permissions": permissions
+                    })
+                })
+                .then(response => response.json())
+                .then(element => {
+                    $("#view-pop").addClass("opacity-0")
+                    setTimeout(() => {
+                        $("#view-pop").removeClass("flex")
+                        $("#view-pop").removeClass("scale-[1.05]");
+                        $("#view-pop").addClass("hidden")
+                    }, 100);
+                })
+            })
             fetch(apiVersionURL("v1", "/config/users/permissions"))
                 .then(async res => await res.json())
                 .then(async json => {
-
+                    var gb_user = $("#users-list");
+                    gb_user.html("");
+                    for (var i in json) {
+                        var user = json[i];
+                        var item = $(`<div class= "bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group userConfigPermissions">`)
+                            .attr("email", user.email)
+                            .addClass('userList-Permissions')
+                            .html(`
+                        <div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
+                        </div>
+                        <span class="text-[20px] text-slate-300">${user.name}</span>
+                        <div
+                            class="group-hover:bg-[rgba(0,0,0,0.58)] group-hover:opacity-100 opacity-0 transition absolute rounded-xl w-inherit h-inherit flex justify-center items-center flex-col gap-1">
+                            <div class="bg-[#2E3442] w-[50px] h-[50px] rounded-full flex justify-center items-center">
+                                <i class="fa-solid fa-pen text-[25px] text-[#161920]"></i>
+                            </div>
+                            <span>Configurar Permissões</span>
+                        </div>
+                        `)
+                        gb_user.append(item);
+                    }
+                    gb_user.append(`
+                        <div class="bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group userAdd">
+<div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
+<i class="fa-solid fa-plus text-[50px] text-[#161920]"></i>
+</div>
+<span class="text-[20px] text-slate-300">Adicionar</span>
+</div>
+                        `)
                 })
         })
     </script>
@@ -164,17 +423,61 @@
     </nav>
     <div class="h-[100px]"></div>
     <section class="flex flex-col gap-[40px]">
+        <div class="fixed mt-[20px] ml-[20px] z-20">
+            <button class="bg-sky-600 hover:bg-sky-700 transition pt-2 pb-2 pr-3 pl-3 rounded-md hidden max-md:flex"
+                id="bar-view-painel">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="ml-[-26px] absolute -translate-x-full top-0 z-30 flex flex-col items-end w-[300px] h-[100vh] pr-8 pt-3 rounded-lg bg-[#0F131C] duration-300 transition-transform"
+                id="mobile-view-painel">
+                <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                    <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[5px] pb-[1px] pt-[-7px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                        id="close-bars-p">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base">Configurações</h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/painel"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition rounded-md text-[18px]">Configurações
+                                    Principais</a>
+                                <a href="/admin/permissions"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] transition">Permissões</a>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base mt-[10px]">Páginas</h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/pages/index"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Página
+                                    Inicial</a>
+                                <div
+                                    class="cursor-pointer w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">
+                                    <h1>Biografia</h1>
+                                    <div></div>
+                                </div>
+                                <a href="/admin/pages/blog"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
+                                <a href="/admin/pages/galery"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Galeria</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex">
             <div
-                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px]">
+                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px] max-md:hidden">
                 <div>
                     <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Configurações</h1>
                     <div class="flex flex-col gap-1">
                         <a href="/admin/painel"
-                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] rounded-md text-[18px] transition">Configurações
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px]">Configurações
                             Principais</a>
                         <a href="/admin/permissions"
-                            class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] transition">Permissões</a>
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Permissões</a>
                     </div>
                 </div>
                 <div>
@@ -195,9 +498,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex mt-[50px] flex-col">
+            <div class="flex mt-[50px] flex-col max-md:p-5">
                 <h1 class="text-[rgba(255,255,255,0.58)] text-3xl font-semibold">Permissões</h1>
-                <div class="mt-[30px] gap-5 grid-cols-5 grid" id="users-list">
+                <div class="mt-[30px] gap-5 grid-cols-5 grid max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:justify-center max-sm:items-center" id="users-list">
                     <div class="justify-center items-center flex w-full">
                         <svg class="spinner" width="30px" height="30px" viewBox="0 0 66 66"
                             xmlns="http://www.w3.org/2000/svg">
@@ -205,26 +508,6 @@
                                 r="30"></circle>
                         </svg>
                     </div>
-                    <!-- <div
-                        class="bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group">
-                        <div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
-                            <i class="fa-solid fa-plus text-[50px] text-[#161920]"></i>
-                        </div>
-                        <span class="text-[20px] text-slate-300">Adicionar</span>
-                    </div>
-                    <div
-                        class="bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group">
-                        <div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
-                        </div>
-                        <span class="text-[20px] text-slate-300">Jeferson Vitor</span>
-                        <div
-                            class="group-hover:bg-[rgba(0,0,0,0.58)] group-hover:opacity-100 opacity-0 transition absolute rounded-xl w-inherit h-inherit flex justify-center items-center flex-col gap-1">
-                            <div class="bg-[#2E3442] w-[50px] h-[50px] rounded-full flex justify-center items-center">
-                                <i class="fa-solid fa-pen text-[25px] text-[#161920]"></i>
-                            </div>
-                            <span>Configurar Permissões</span>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -275,5 +558,97 @@
         </div>
     </div>
 </footer>
+<style>
+    @keyframes check {
+        100% {
+            content: "\f00d";
+            /* color: #fb5757; */
+        }
+
+        50% {
+            content: "\f00d";
+        }
+
+        0% {
+            content: "\f00c";
+            /* color: #62fb57; */
+        }
+    }
+
+    .switch input {
+        display: none;
+    }
+
+    input {
+        border-radius: 4px;
+        background-color: #fbfbfc;
+        padding: 8px;
+    }
+
+    .switch {
+        display: inline-block;
+        position: relative;
+        min-width: 43px;
+        min-height: 22px;
+    }
+
+    .switch input {
+        display: none;
+    }
+
+    .slider {
+        background-color: #1F232B;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .4s;
+    }
+
+    .slider:before {
+        background-color: #777777;
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        bottom: 3px;
+        left: 3px;
+        position: absolute;
+        font-size: 12px;
+        text-align-last: center;
+        transition: .4s;
+        width: 16px;
+        height: 16px;
+        color: #1F232A;
+        animation: check 0.8s forwards;
+    }
+
+    input:checked+.slider {
+        background-color: #353e51
+    }
+
+    input:checked+.slider:before {
+        color: #353e51
+    }
+
+    input:checked+.slider:before {
+        transform: translateX(22px);
+        animation: none;
+    }
+
+    .gap-6 {
+        gap: 50px;
+    }
+
+    .slider.round {
+        border-radius: 34px
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .3)
+    }
+</style>
 
 </html>
