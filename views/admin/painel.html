@@ -39,7 +39,8 @@
     <meta name="next-head-count" content="29">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/css/style.css" importance="high">
-    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css" importance="true">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css"
+        importance="true">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
         importance="true">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -362,9 +363,52 @@
     </nav>
     <div class="h-[100px]"></div>
     <section class="flex flex-col gap-[40px]">
+        <div class="fixed mt-[20px] ml-[20px] z-20">
+            <button class="bg-sky-600 hover:bg-sky-700 transition pt-2 pb-2 pr-3 pl-3 rounded-md hidden max-md:flex" id="bar-view-painel">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="ml-[-26px] absolute -translate-x-full top-0 z-30 flex flex-col items-end w-[300px] h-[100vh] pr-8 pt-3 rounded-lg bg-[#0F131C] duration-300 transition-transform"
+                id="mobile-view-painel">
+                <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                    <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[5px] pb-[1px] pt-[-7px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                        id="close-bars-p">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base">Configurações</h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/painel"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px]">Configurações
+                                    Principais</a>
+                                <a href="/admin/permissions"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Permissões</a>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base mt-[10px]">Páginas</h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/pages/index"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Página
+                                    Inicial</a>
+                                <div
+                                    class="cursor-pointer w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">
+                                    <h1>Biografia</h1>
+                                    <div></div>
+                                </div>
+                                <a href="/admin/pages/blog"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
+                                <a href="/admin/pages/galery"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Galeria</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex">
             <div
-                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px]">
+                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px] max-md:hidden">
                 <div>
                     <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Configurações</h1>
                     <div class="flex flex-col gap-1">
@@ -393,9 +437,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex mt-[50px] flex-col">
+            <div class="flex mt-[50px] flex-col max-md:p-5">
                 <h1 class="text-[rgba(255,255,255,0.58)] text-3xl font-semibold">Configurações Principais</h1>
-                <div class="flex gap-[100px] mt-[30px]">
+                <div class="flex gap-[100px] mt-[30px] max-[1370px]:flex-col max-[1370px]:gap-2">
                     <div class="flex gap-8">
                         <div class="flex">
                             <div class="flex flex-col items-center justify-center">
@@ -413,7 +457,7 @@
                                     id="remove-image">Deletar</button>
                             </div>
                         </div>
-                        <div class="w-[330px]">
+                        <div class="w-[330px] max-[870px]:w-auto">
                             <h1 class="w-full text-[20px] text-[rgba(255,255,255,0.44)] mb-[5px]">Tamanho
                                 recomendável
                                 para
@@ -450,9 +494,9 @@
                 </div>
                 <hr class="border-[0px] bg-[rgba(55,106,183,0.21)] w-full h-[2px] rounded-full mt-[30px] mb-[50px]">
                 <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase">Aviso</h1>
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-5">
-                        <div class="bg-[#1A2431] rounded-md w-[500px] h-min mt-[10px] shadow-[#0F131A] shadow-xl">
+                <div class="flex items-center justify-between max-[1125px]:flex-col max-[1125px]:items-start">
+                    <div class="flex gap-5 max-[1125px]:flex-col">
+                        <div class="bg-[#1A2431] rounded-md w-[500px] max-sm:w-[400px] h-min mt-[10px] shadow-[#0F131A] shadow-xl">
                             <h1
                                 class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
                                 Mensagem</h1>
@@ -475,7 +519,7 @@
                             </select>
                         </div>
                     </div>
-                    <div>
+                    <div class="max-[1125px]:mt-[10px]">
                         <label class="switch">
                             <input type="checkbox" name="warn-type" id="warn-activate">
                             <div class="slider round"></div>
