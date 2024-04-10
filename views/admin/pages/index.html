@@ -49,6 +49,91 @@
     <script src="https://counting.squareweb.app/_next/static/chunks/marked-up69f7gf45fdgsgd4fdg54.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
     <script src="/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#edit-image-initial").on("click", function () {
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Link da Imagem</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="url" name="image-url-initial" id="image-url">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="image-send-url-initial" type="submit">Confirmar</button>
+                        </form>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            })
+            $("body").on("click", "#image-send-url-initial", function () {
+                $(this).html(reloadAnimationHTML(this))
+                let imageUrl = document.getElementById('image-url').value;
+                if (ValidateImageURL(imageUrl)) {
+                    fetch(apiVersionURL("v1", "/config/modules"), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({
+                            "page-initial": {
+                                images: imageUrl
+                            }
+                        })
+                    }).then(async res => await res.json())
+                        .then(async json => {
+                            $("#view-pop").addClass("opacity-0")
+                            setTimeout(() => {
+                                $("#view-pop").removeClass("flex")
+                                $("#view-pop").removeClass("scale-[1.05]");
+                                $("#view-pop").addClass("hidden")
+                            }, 100);
+
+                            $("#preview-image").css({
+                                "background-image": "url(" + imageUrl + ")",
+                                "background-repeat": "round"
+                            })
+                        }).catch(err => {
+                            $(this).html("Salvar")
+                                .attr("disabled", false)
+                                notifyView({content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1})
+                        })
+                } else {
+                    $("#image-url").focus();
+                    $(this).html("Salvar")
+                        .attr("disabled", false)
+                }
+            })
+            var intervalServer = setInterval(() => {
+                var config = serverInfo;
+                if (!config) return;
+                clearInterval(intervalServer);
+
+                if(config["page-initial"]) {
+                    $("#preview-image").css({
+                        "background-image": "url(" + config["page-initial"].images + ")",
+                        "background-repeat": "round"
+                    })
+                }
+            })
+
+        })
+    </script>
 </head>
 
 <body class="bg-[#0B0E13] font-sans text-white">
@@ -234,6 +319,37 @@
             </div>
             <div class="flex mt-[50px] flex-col max-md:p-5">
                 <h1 class="text-[rgba(255,255,255,0.58)] text-3xl font-semibold">Página Inicial</h1>
+                <div class="mt-[30px] gap-5 flex flex-col max-sm:justify-center max-sm:items-center">
+                    <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase mb-[-15px]">Slides</h1>
+                    <div class="grid grid-cols-3 gap-3 max-2xl:grid-cols-2 max-[1130px]:grid-cols-1">
+                        <div class="bg-[#161920] rounded-lg w-[350px] h-[200px] group" id="preview-image">
+                            <div
+                                class="transition opacity-0 group-hover:opacity-100 flex gap-1 w-full h-full justify-end items-end mt-[-8px] ml-[-8px]">
+                                <div
+                                    class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
+                                    id="edit-image-initial">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </div>
+                                <!-- <div
+                                                    class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300">
+                                                    <i class="fa-solid fa-trash-can text-red-500"></i>
+                                                </div> -->
+                            </div>
+                        </div>
+                        <div class="bg-[#161920] rounded-lg w-[350px] h-[200px] group cursor-no-drop"
+                            onclick="notifyView({content: 'Sistema temporariamente desativado!', type: 1})">
+                            <div class="flex justify-center items-center w-full h-full">
+                                <div class="rounded-full w-[100px] h-[100px] bg-[#282c36] flex justify-center items-center">
+                                    <i class="fa-solid fa-plus text-[50px] text-[#161920]"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-[30px] gap-5 flex flex-col max-sm:justify-center max-sm:items-center">
+                    <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase mb-[-15px]">Propostas</h1>
+                    <p class="text-[#702F2F] text-sm">Sistema temporariamente desativado*</p>
+                </div>
             </div>
         </div>
     </section>
