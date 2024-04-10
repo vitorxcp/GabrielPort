@@ -177,15 +177,22 @@
     <section class="flex flex-col gap-[40px]">
         <div class="pr-[300px] pl-[300px] max-md:pr-[20px] max-md:pl-[20px] max-2xl:pr-[150px] max-2xl:pl-[150px] max-sm:pr-[10px] max-sm:pl-[10px]"
             id="images-root">
-            <div class="bg-[#13171F] h-[700px] max-md:h-[500px] max-sm:h-[400px] rounded-xl"></div>
-            <div class="flex gap-[15px] justify-center mt-[-25px]  transition-[1s]">
+            <%if(page) {%>
+                <%if(page.images) {%>
+                    <div class="bg-[#13171F] h-[700px] max-md:h-[500px] max-sm:h-[400px] rounded-xl"
+                        style="background-image: url(<%=page.images%>); background-repeat: no-repeat;background-position: center;background-size: cover;"></div>
+                <%}%>
+            <%} else {%>
+                    <div class="bg-[#13171F] h-[700px] max-md:h-[500px] max-sm:h-[400px] rounded-xl"></div>
+                    <%}%>
+            <!-- <div class="flex gap-[15px] justify-center mt-[-25px]  transition-[1s]">
                 <div class="image-pointer-select bg-[#909090] w-[10px] h-[10px] rounded-full cursor-pointer  transition-[1s]"
                     id="image-root-1"></div>
                 <div class="image-pointer-select bg-[#3F3F3F] hover:bg-[#5b5b5b] w-[10px] h-[10px] rounded-full cursor-pointer  transition-[1s]"
                     id="image-root-2"></div>
                 <div class="image-pointer-select bg-[#3F3F3F] hover:bg-[#5b5b5b] w-[10px] h-[10px] rounded-full cursor-pointer  transition-[1s]"
                     id="image-root-3"></div>
-            </div>
+            </div> -->
         </div>
         <!-- <div
             class="flex justify-between pr-[300px] pl-[300px] max-md:pr-[50px] max-md:pl-[50px] max-md:flex-col max-md:gap-2">
