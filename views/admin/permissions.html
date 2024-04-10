@@ -245,6 +245,10 @@
                         </div>`)
                             })
                         })
+                        .catch(err => {
+                            searchUserEmailsView.html(`<p class="text-[#fafafa94] mt-[10px] mb-[2px]">Erro, tente novamente...</p>`)
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                        })
 
                 }
             })
@@ -315,19 +319,24 @@
                             $("#view-pop").removeClass("scale-[1.05]");
                             $("#view-pop").addClass("hidden")
                         }, 100);
+                    }).catch(err => {
+                        $(this).html("Salvar Alterações")
+                        attr("disabled", false);
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                     })
             })
-            fetch(apiVersionURL("v1", "/config/users/permissions"))
-                .then(async res => await res.json())
-                .then(async json => {
-                    var gb_user = $("#users-list");
-                    gb_user.html("");
-                    for (var i in json) {
-                        var user = json[i];
-                        var item = $(`<div class= "bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group userConfigPermissions">`)
-                            .attr("email", user.email)
-                            .addClass('userList-Permissions')
-                            .html(`
+            function permissionCheck() {
+                fetch(apiVersionURL("v1", "/config/users/permissions"))
+                    .then(async res => await res.json())
+                    .then(async json => {
+                        var gb_user = $("#users-list");
+                        gb_user.html("");
+                        for (var i in json) {
+                            var user = json[i];
+                            var item = $(`<div class= "bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group userConfigPermissions">`)
+                                .attr("email", user.email)
+                                .addClass('userList-Permissions')
+                                .html(`
                         <div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
                         </div>
                         <span class="text-[20px] text-slate-300">${user.name}</span>
@@ -339,9 +348,9 @@
                             <span>Configurar Permissões</span>
                         </div>
                         `)
-                        gb_user.append(item);
-                    }
-                    gb_user.append(`
+                            gb_user.append(item);
+                        }
+                        gb_user.append(`
                         <div class="bg-[#161920] w-[200px] h-[200px] flex justify-center items-center rounded-xl cursor-pointer flex-col gap-1 group userAdd">
 <div class="bg-[#2E3442] w-[100px] h-[100px] rounded-full flex justify-center items-center">
 <i class="fa-solid fa-plus text-[50px] text-[#161920]"></i>
@@ -349,7 +358,14 @@
 <span class="text-[20px] text-slate-300">Adicionar</span>
 </div>
                         `)
-                })
+                    }).catch(err => {
+                        setTimeout(() => {
+                            permissionCheck()
+                        }, 5000);
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                    })
+            }
+            permissionCheck()
         })
     </script>
 </head>
