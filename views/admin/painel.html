@@ -106,6 +106,10 @@
                                 "background-image": "url(" + imageUrl + ")",
                                 "background-repeat": "round"
                             })
+                        }).catch(err => {
+                            $(this).html("Salvar")
+                                .attr("disabled", false)
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                         })
                 } else {
                     $("#image-url").focus();
@@ -144,6 +148,14 @@
                             "background-image": "",
                             "background-repeat": "round"
                         })
+                    }).catch(err => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Deletar")
+                        $("#img-edaw1").css({
+                            "background-image": "",
+                            "background-repeat": "round"
+                        })
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                     })
             })
             $("#preview-bar-warn").addClass("opacity-50");
@@ -196,6 +208,12 @@
                         $(this).html("Salvar")
                         $(this).addClass("hidden")
                         $("#title-page-view").text($("#title-page-promt").val())
+                    }).catch(err => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                        $("#title-page-view").text($("#title-page-promt").val())
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                     })
             })
             $("#save-new-warnbar").on("click", function () {
@@ -218,10 +236,13 @@
                         $(this).attr("disabled", false);
                         $(this).html("Salvar")
                         $(this).addClass("hidden")
+                    }).catch(err => {
+                         $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                     })
             });
-            // $("#")
-            // $("#")
 
             var intervalServer = setInterval(() => {
                 var config = serverInfo;
@@ -529,8 +550,8 @@
                 <p class="text-[rgba(32,161,255,0.44)] text-[15px] mt-[5px]">* Mensagem mostrada em baixo da navbar
                     (previa a baixo).</p>
                 <div class="mt-5 transition" id="preview-bar-warn">
-                    <div class="flex justify-center w-full rounded" id="color-bar-warn">
-                        <span class="text-[#8D8879] self-center text-center" id="text-bar-warn"></span>
+                    <div class="flex justify-center w-full rounded transition" id="color-bar-warn">
+                        <span class="text-[#8D8879] self-center text-center transition" id="text-bar-warn"></span>
                     </div>
                 </div>
                 <button class="bg-green-700 hover:bg-green-900 transition rounded-md p-3 pt-1 pb-1 mt-[10px] hidden"
