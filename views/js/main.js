@@ -3,6 +3,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 var userInfo = {};
 var serverInfo = null;
+var clickNotify = false
 
 gtag('js', new Date());
 
@@ -20,12 +21,18 @@ $(document).ready(function (event) {
 
     $(document).click(function (event) {
         if (!$(event.target).closest('#view-pop-content').length || !$(event.target).closest('#view-pop-display').length) {
+            if (clickNotify === true) {
+                clickNotify = false;
+                return;
+            }
+
             $("#view-pop").addClass("opacity-0")
             setTimeout(() => {
                 $("#view-pop").removeClass("flex")
                 $("#view-pop").removeClass("scale-[1.05]");
                 $("#view-pop").addClass("hidden")
             }, 100);
+        } else {
         }
     });
 
@@ -915,6 +922,7 @@ function notifyView({ content, type = 0 }) {
     }, 5000)
 
     $(`div#notify-${dateId}`).click(function (v) {
+        clickNotify = true
         clearTimeout(deleteNotifyTime);
         $(this).remove();
     })
