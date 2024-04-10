@@ -33,7 +33,8 @@ module.exports.pagesRedirect = (db, Pudding) => {
             Auth: req.isAuthenticated(),
             user: req.user,
             title: req.server.config.title,
-            image: req.server.config["image-url"]
+            image: req.server.config["image-url"],
+            page: req.server.config["page-initial"]
         })
     })
 
