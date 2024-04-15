@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover">
+    <title>Painel de Controle - <%=title%>
+    </title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="shortcut icon" href="<%=image%>">
+    <meta name="application-name" content="<%=title%>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta itemprop="image" content="<%=image%>">
+    <meta name="author" content="vitor_xp">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#224eff">
+    <meta property="og:title" content="Painel de Controle - <%=title%>">
+    <meta name="twitter:title" content="Painel de Controle - <%=title%>">
+    <meta name="apple-mobile-web-app-title" content="Galeria - <%=title%>">
+    <meta property="description"
+        content="O Portfólio do Pré-Candidato a Vereador Gabriel Felipe Martins é um projeto dedicado a fornecer informações claras e transparentes aos eleitores de Várzea Grande. Esperamos que este portfólio ajude a fortalecer a conexão entre o pré-candidato e a comunidade, promovendo assim uma participação cívica mais informada e engajada.">
+    <meta property="og:description"
+        content="O Portfólio do Pré-Candidato a Vereador Gabriel Felipe Martins é um projeto dedicado a fornecer informações claras e transparentes aos eleitores de Várzea Grande. Esperamos que este portfólio ajude a fortalecer a conexão entre o pré-candidato e a comunidade, promovendo assim uma participação cívica mais informada e engajada.">
+    <meta name="twitter:description"
+        content="O Portfólio do Pré-Candidato a Vereador Gabriel Felipe Martins é um projeto dedicado a fornecer informações claras e transparentes aos eleitores de Várzea Grande. Esperamos que este portfólio ajude a fortalecer a conexão entre o pré-candidato e a comunidade, promovendo assim uma participação cívica mais informada e engajada.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="<%=title%>">
+    <meta property="og:url" content="https://">
+    <meta name="og:image" content="<%=image%>">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:creator" content="@">
+    <meta name="twitter:url" content="https://">
+    <meta name="twitter:image" content="<%=image%>">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="<%=image%>">
+    <meta name="next-head-count" content="29">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css" importance="high">
+    <link rel="stylesheet" href="https://counting.squareweb.app/_next/static/css/99fda955321f020f9.css"
+        importance="true">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap"
+        importance="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://fonts.cdnfonts.com/css/heavitas" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://counting.squareweb.app/_next/static/chunks/marked-up69f7gf45fdgsgd4fdg54.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JYZE1GNX7"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").on("input", "#text-tranquit-vue", function () {
+                var texto = $(this).val();
+
+                if ((serverInfo ? (serverInfo["page-bio"] ? serverInfo["page-bio"]["text-bio"] : "") : "") !== texto) $("#save-new-bio").removeClass("hidden");
+                if ((serverInfo ? (serverInfo["page-bio"] ? serverInfo["page-bio"]["text-bio"] : "") : "") === texto) $("#save-new-bio").addClass("hidden");
+
+                var texto = String(texto)
+                    .replaceAll(/\*\*\*(.+?)\*\*\*/g, (match, string) => `<span class="text-gray-500">***</span><strong class="text-[#fafafa]" style="font-style: italic;">${string}</strong><span class="text-gray-500">***</span>`)
+                    .replaceAll(/\*\*(.+?)\*\*/g, (match, string) => `<span class="text-gray-500">**</span><strong class="text-[#fafafa]">${string}</strong><span class="text-gray-500">**</span>`)
+                    .replaceAll(/\~\~(.+?)\~\~/g, (match, string) => `<span class="text-gray-500">~~</span><span style="text-decoration: line-through;" class="text-[#fafafa]">${string}</span><span class="text-gray-500">~~</span>`)
+                    .replaceAll(/\_\_(.+?)\_\_/g, (match, string) => `<span class="text-gray-500">__</span><span  style="text-decoration: underline;" class="text-[#fafafa]">${string}</span><span class="text-gray-500">__</span>`)
+                    .replaceAll(/\_(.+?)\_/g, (match, string) => `<span class="text-gray-500">_</span><span class="text-[#fafafa]" style="font-style: italic;">${string}</span><span class="text-gray-500">_</span>`)
+                    .replaceAll(/\((https?:\/\/[^\s\)]+)\)\[(.+?)\]/g, (match, url, string) => `<a href="${url}">${match}</a>`)
+                    .replaceAll(/\`(.+?)\`/g, (match, string) => `<code>\`${string}\`</code>`)
+                    .replaceAll("\n", (match, string) => `<br>`)
+                    .replaceAll(/\n/g, (match, string) => `<br>`)
+                $("#view-vue-traq").html(texto)
+            })
+            $("#text-tranquit-vue").on("scroll", function () {
+                var scrollTop = $(this).scrollTop();
+                $("#view-vue-traq").scrollTop(scrollTop);
+            });
+            $("body").on("click", "#edit-image-bio-back", function () {
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Link da Imagem</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="url" name="image-url-bio-back" id="image-url-bio-back">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="image-send-url-bio-back" type="submit">Confirmar</button>
+                        </form>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            })
+            $("body").on("click", "#edit-image-bio-profile", function () {
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Link da Imagem</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="url" name="image-url-bio-profile" id="image-url-bio-profile">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="image-send-url-bio-profile" type="submit">Confirmar</button>
+                        </form>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            })
+            $("body").on("click", "#edit-image-bio-part", function () {
+                setTimeout(() => {
+                    $("#view-pop").removeClass("flex")
+                    $("#view-pop").removeClass("scale-[1.05]");
+                    $("#view-pop").addClass("hidden")
+                }, 100);
+                setTimeout(() => {
+                    PopContent({
+                        element: `
+                    <form onsubmit="if (!window.__cfRLUnblockHandlers) return false; return false;">
+                    <div class="bg-[#1A2431] rounded-md w-full mt-[10px] shadow-[#0F131A] shadow-xl">
+                        <h1
+                            class="absolute mt-[-10px] ml-[15px] p-0 pr-3 pl-3 bg-[#1D4272] text-[#C2C2C2] text-[14px] rounded-full shadow-[#0F131A] shadow-lg">
+                            Link da Imagem</h1>
+                        <input class="p-1 pl-3 pr-3 text-[18px] text-[#d7d7d7] bg-transparent pt-[16px] w-[100%]"
+                            type="url" name="image-url-bio-part" id="image-url-bio-part">
+                    </div>
+                    <button
+                        class="bg-[#2B4C77] active:bg-[#2B4C77] hover:bg-[#3c6396] w-full p-2 mt-[15px] rounded-md transition text-[20px]"
+                        id="image-send-url-bio-part" type="submit">Confirmar</button>
+                        </form>
+            `,
+                        classes: "flex flex-col justify-center p-5",
+                        pop_display_delete: "w-[350px] h-[150px]",
+                        pop_display_add: "w-[400px]"
+                    })
+                    visibilityOrHiddenPop();
+                }, 150)
+            })
+            $("body").on("click", "#image-send-url-bio-back", function () {
+                let imageElement = $("#image-url-bio-back");
+                reloadAnimationHTML(this, "24px");
+                if (ValidateImageURL(imageElement.val())) {
+                    fetch(apiVersionURL("v1", "/config/modules"), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({
+                            "page-bio": {
+                                "image-back": imageElement.val()
+                            }
+                        })
+                    }).then(async res => await res.json())
+                        .then(async json => {
+                            $("#view-pop").addClass("opacity-0")
+                            setTimeout(() => {
+                                $("#view-pop").removeClass("flex")
+                                $("#view-pop").removeClass("scale-[1.05]");
+                                $("#view-pop").addClass("hidden")
+                            }, 100);
+
+                            $("#preview-image-back").css({
+                                "background-image": "url(" + imageElement.val() + ")",
+                                "background-repeat": "round"
+                            })
+                        }).catch(err => {
+                            $(this).html("Salvar")
+                                .attr("disabled", false)
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                        })
+                } else {
+                    imageElement.focus();
+                    $(this).html("Salvar")
+                        .attr("disabled", false)
+                }
+            })
+            $("body").on("click", "#image-send-url-bio-profile", function () {
+                let imageElement = $("#image-url-bio-profile");
+                reloadAnimationHTML(this, "24px");
+                if (ValidateImageURL(imageElement.val())) {
+                    fetch(apiVersionURL("v1", "/config/modules"), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({
+                            "page-bio": {
+                                "image-profile": imageElement.val()
+                            }
+                        })
+                    }).then(async res => await res.json())
+                        .then(async json => {
+                            $("#view-pop").addClass("opacity-0")
+                            setTimeout(() => {
+                                $("#view-pop").removeClass("flex")
+                                $("#view-pop").removeClass("scale-[1.05]");
+                                $("#view-pop").addClass("hidden")
+                            }, 100);
+
+                            $("#preview-image-profile").css({
+                                "background-image": "url(" + imageElement.val() + ")",
+                                "background-repeat": "round"
+                            })
+                        }).catch(err => {
+                            $(this).html("Salvar")
+                                .attr("disabled", false)
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                        })
+                } else {
+                    imageElement.focus();
+                    $(this).html("Salvar")
+                        .attr("disabled", false)
+                }
+            })
+            $("body").on("click", "#image-send-url-bio-part", function () {
+                let imageElement = $("#image-url-bio-part");
+                reloadAnimationHTML(this, "24px");
+                if (ValidateImageURL(imageElement.val())) {
+                    fetch(apiVersionURL("v1", "/config/modules"), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({
+                            "page-bio": {
+                                "image-part": imageElement.val()
+                            }
+                        })
+                    }).then(async res => await res.json())
+                        .then(async json => {
+                            $("#view-pop").addClass("opacity-0")
+                            setTimeout(() => {
+                                $("#view-pop").removeClass("flex")
+                                $("#view-pop").removeClass("scale-[1.05]");
+                                $("#view-pop").addClass("hidden")
+                            }, 100);
+
+                            $("#preview-image-part").css({
+                                "background-image": "url(" + imageElement.val() + ")",
+                                "background-repeat": "round"
+                            })
+                        }).catch(err => {
+                            $(this).html("Salvar")
+                                .attr("disabled", false)
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                        })
+                } else {
+                    imageElement.focus();
+                    $(this).html("Salvar")
+                        .attr("disabled", false)
+                }
+            })
+            $("body").on("click", "#save-new-bio", function () {
+                reloadAnimationHTML(this, "24px");
+                fetch(apiVersionURL("v1", "/config/modules"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({
+                        "page-bio": {
+                            "text-bio": $("#text-tranquit-vue").val(),
+                        }
+                    })
+                }).then(async res => await res.json())
+                    .then(async json => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                    }).catch(err => {
+                        $(this).attr("disabled", false);
+                        $(this).html("Salvar")
+                        $(this).addClass("hidden")
+                        notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
+                    })
+
+            })
+
+            var intervalServer = setInterval(() => {
+                var config = serverInfo;
+                if (!config) return;
+                clearInterval(intervalServer);
+
+                if (config["page-bio"]) {
+                    if (config["page-bio"]['text-bio']) {
+                        $("#text-tranquit-vue").html(config["page-bio"]['text-bio'])
+                        $("#view-vue-traq").html(String(config["page-bio"]['text-bio']).replaceAll(/\*\*\*(.+?)\*\*\*/g, (match, string) => `<span class="text-gray-500">***</span><strong class="text-[#fafafa]" style="font-style: italic;">${string}</strong><span class="text-gray-500">***</span>`)
+                            .replaceAll(/\*\*(.+?)\*\*/g, (match, string) => `<span class="text-gray-500">**</span><strong class="text-[#fafafa]">${string}</strong><span class="text-gray-500">**</span>`)
+                            .replaceAll(/\~\~(.+?)\~\~/g, (match, string) => `<span class="text-gray-500">~~</span><span style="text-decoration: line-through;" class="text-[#fafafa]">${string}</span><span class="text-gray-500">~~</span>`)
+                            .replaceAll(/\_\_(.+?)\_\_/g, (match, string) => `<span class="text-gray-500">__</span><span  style="text-decoration: underline;" class="text-[#fafafa]">${string}</span><span class="text-gray-500">__</span>`)
+                            .replaceAll(/\_(.+?)\_/g, (match, string) => `<span class="text-gray-500">_</span><span class="text-[#fafafa]" style="font-style: italic;">${string}</span><span class="text-gray-500">_</span>`)
+                            .replaceAll(/\((https?:\/\/[^\s\)]+)\)\[(.+?)\]/g, (match, url, string) => `<a href="${url}">${match}</a>`)
+                            .replaceAll(/\`(.+?)\`/g, (match, string) => `<code>\`${string}\`</code>`)
+                            .replaceAll("\n", (match, string) => `<br>`)
+                            .replaceAll(/\n/g, (match, string) => `<br>`))
+                    }
+                    if (config["page-bio"]["image-back"]) $("#preview-image-back").css({
+                        "background-image": "url(" + config["page-bio"]["image-back"] + ")",
+                        "background-repeat": "round"
+                    })
+
+                    if (config["page-bio"]["image-profile"]) $("#preview-image-profile").css({
+                        "background-image": "url(" + config["page-bio"]["image-profile"] + ")",
+                        "background-repeat": "round"
+                    })
+
+                    if (config["page-bio"]["image-part"]) $("#preview-image-part").css({
+                        "background-image": "url(" + config["page-bio"]["image-part"] + ")",
+                        "background-repeat": "round"
+                    })
+                }
+            })
+        })
+    </script>
+</head>
+
+<body class="bg-[#0B0E13] font-sans text-white">
+    <div class="hidden bg-[rgb(0,0,0,0.46)] w-full h-full justify-center items-center z-20 fixed transition-[1s] opacity-0"
+        id="view-pop">
+        <div class="bg-[#13171F] rounded-md p-2 w-[350px] h-[150px] flex flex-col" id="view-pop-display">
+            <div id="view-pop-content"></div>
+            <div class="absolute flex justify-end" style="width: inherit; margin-left: -15px;">
+                <button id="view-pop-close">
+                    <i class="text-xl text-red-500 fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="fixed z-30 flex flex-col items-center justify-end w-full h-full gap-1 p-4 transition bg-transparent pointer-events-none"
+        id="notification-view"></div>
+    <nav class="bg-[rgb(17,21,29)] fixed w-full z-10">
+        <div class="flex justify-between items-center center pl-[20px] pr-[20px] transition-[1s]">
+            <div class="flex">
+                <a href="/">
+                    <img class="w-[150px] h-[50px] rounded-md"
+                        src="https://cdn.discordapp.com/attachments/1009566680520851526/1225497080001462425/image-removebg-preview_1.png?ex=66215818&is=660ee318&hm=67d4dd4e3351d9887cd2cb318a4000887583f15db34c139e0e0bb8b7201eadd8&"
+                        alt="Logo">
+                </a>
+            </div>
+            <div class="flex max-[866px]:p-[40px] max-[866px]:pr-[10px] max-[866px]:pl-[10px]">
+                <a href="/" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Pagína
+                        Inicial
+                    </div>
+                </a>
+                <a href="/biography" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Biografia</div>
+                </a>
+                <a href="/blog" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Notícias
+                    </div>
+                </a>
+                <a href="/galery" class="max-[866px]:hidden">
+                    <div
+                        class="text-[#999999] text-[20px] hover:text-[#dedede] flex items-center p-[25px] pl-[15px] pr-[15px]">
+                        Galeria
+                    </div>
+                </a>
+            </div>
+            <div class="flex">
+                <%if(!Auth) {%>
+                    <button
+                        class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                        id="login-user">
+                        <i class="fa-solid fa-right-from-bracket"></i> Login</button>
+                    <%} else {%>
+                        <button
+                            class="bg-[#161920] hover:bg-[#202530] p-[10px] pl-[20px] pr-[20px] rounded-md text-[#999999] hover:text-[#dedede] transition-[1s] text-[20px] self-center text-center"
+                            id="login-user" auth="true">
+                            <div class="flex items-center gap-[10px]">
+                                <%if(!user.avatar) {%>
+                                    <div class="bg-[#292B32] rounded-full w-[32px] h-[32px]"></div>
+                                    <%} else {%>
+                                        user.avatar
+                                        <%}%>
+                                            <span class="truncate w-[150px]">
+                                                <%=user.name%>
+                                            </span>
+                            </div>
+                        </button>
+                        <%}%>
+                            <div class="text-[#dedede] text-[20px] hover:text-[#dedede] hover:bg-[#f0f8ff1c] items-center p-[15px] rounded-lg ml-[10px] cursor-pointer hidden max-[866px]:flex transition-[1s]"
+                                id="open-bars"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+        <div id="warn-bar" class="hidden">
+            <div class="bg-[#342B10] w-full flex justify-center" id="color-warn-bar">
+                <span class="text-[#8D8879] self-center text-center" id="text-warn-bar">Site em construção, varios
+                    sistemas
+                    podem não
+                    funcionar
+                    corretamente.</span>
+            </div>
+        </div>
+        <div class="absolute translate-x-full top-0 z-30 hidden flex-col items-end w-full h-[100vh] pr-8 pt-3 rounded-lg bg-[#0b0e13] duration-300 transition-transform"
+            id="mobile-view">
+            <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[14px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                    id="close-bars">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/">Página Inicial</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/biography">Biografia</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/blog">Notícias</a>
+                <a class="p-1 pl-4 pr-4 hover:bg-[#f0f8ff1c] rounded-lg transition-[1s] text-[#bdbdbd] hover:text-white w-full text-end"
+                    href="/galery">Galeria</a>
+            </div>
+        </div>
+    </nav>
+    <div class="h-[100px]"></div>
+    <section class="flex flex-col gap-[40px]">
+        <div class="fixed mt-[20px] ml-[20px] z-20">
+            <button class="hidden pt-2 pb-2 pl-3 pr-3 transition rounded-md bg-sky-600 hover:bg-sky-700 max-md:flex"
+                id="bar-view-painel">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="ml-[-26px] absolute -translate-x-full top-0 z-30 flex flex-col items-end w-[300px] h-[100vh] pr-8 pt-3 rounded-lg bg-[#0F131C] duration-300 transition-transform"
+                id="mobile-view-painel">
+                <div class="flex flex-col items-end text-[26px] w-full pl-8">
+                    <div class="text-[#ff3a3a] text-[26px] hover:text-[#ff6363] hover:bg-[#f0f8ff1c] items-center p-[5px] pb-[1px] pt-[-7px] rounded-lg ml-[10px] w-full text-end cursor-pointer transition-[1s]"
+                        id="close-bars-p">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base">Configurações
+                            </h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/painel"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition rounded-md text-[18px]">Configurações
+                                    Principais</a>
+                                <a href="/admin/permissions"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition rounded-md text-[18px]">Permissões</a>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase text-base mt-[10px]">Páginas
+                            </h1>
+                            <div class="flex flex-col gap-1">
+                                <a href="/admin/pages/index"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Página
+                                    Inicial</a>
+                                <a href="/admin/pages/biography"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] transition">Biografia</a>
+                                <a href="/admin/pages/blog"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
+                                <a href="/admin/pages/galery"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Galeria</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <div
+                class="float-left flex flex-col mr-[100px] sticky h-[calc(100vh-46px)] bg-[#0F131C] p-3 pt-10 gap-5 w-[300px] max-md:hidden">
+                <div>
+                    <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Configurações</h1>
+                    <div class="flex flex-col gap-1">
+                        <a href="/admin/painel"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Configurações
+                            Principais</a>
+                        <a href="/admin/permissions"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Permissões</a>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-[rgba(0,163,255,0.47)] font-extrabold uppercase">Páginas</h1>
+                    <div class="flex flex-col gap-1">
+                        <a href="/admin/pages/index"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Página
+                            Inicial</a>
+                        <a href="/admin/pages/biography"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px]">Biografia</a>
+                        <a href="/admin/pages/blog"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
+                        <a href="/admin/pages/galery"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Galeria</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex mt-[50px] flex-col max-md:p-5">
+                <h1 class="text-[rgba(255,255,255,0.58)] text-3xl font-semibold">Biografia</h1>
+                <div class="mt-[30px]">
+                    <div class="flex justify-between gap-[50px] max-[1180px]:gap-[30px] max-sm:gap-2 max-sm:flex-col">
+                        <div class="flex flex-col gap-[5px]">
+                            <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase">Foto de Trás</h1>
+                            <div class="bg-[#161920] rounded-lg w-[350px] h-[200px] group" id="preview-image-back">
+                                <div
+                                    class="transition opacity-0 group-hover:opacity-100 flex gap-1 w-full h-full justify-end items-end mt-[-8px] ml-[-8px]">
+                                    <div class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
+                                        id="edit-image-bio-back">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-[5px]">
+                            <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase">Foto de Perfil
+                            </h1>
+                            <div class="bg-[#161920] rounded-full w-[168px] h-[168px] group" id="preview-image-profile">
+                                <div
+                                    class="transition opacity-0 group-hover:opacity-100 flex gap-1 w-full h-full justify-end items-start mt-[10px] ml-[-10px]">
+                                    <div class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
+                                        id="edit-image-bio-profile">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-[5px]">
+                            <h1 class="text-[rgba(255,255,255,0.58)] text-lg font-semibold uppercase">Foto do Partido
+                            </h1>
+                            <div class="bg-[#161920] rounded-lg w-[100px] h-[100px] group" id="preview-image-part">
+                                <div
+                                    class="transition opacity-0 group-hover:opacity-100 flex gap-1 w-full h-full justify-end items-end mt-[-8px] ml-[-8px]">
+                                    <div class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
+                                        id="edit-image-bio-part">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-[30px]">
+                    <div class="bg-[#161920] rounded-lg w-[500px] h-[310px] p-2">
+                        <h1 class="text-[rgba(41,95,162,0.58)] text-lg font-semibold mb-[5px]">Biografia:</h1>
+                        <textarea
+                            class="w-full h-[260px] outline-none bg-transparent ml-[4px] text-transparent resize-none caret-white"
+                            id="text-tranquit-vue"></textarea>
+                        <div class="absolute w-inherit h-[260px] outline-none bg-transparent p-1 pr-[1.6em] mt-[-273px] pointer-events-none word-break break-words overflow-auto overflow-x-hidden overflow-y-hidden"
+                            id="view-vue-traq"></div>
+                    </div>
+                    <button class="bg-green-700 hover:bg-green-900 transition rounded-md p-3 pt-1 pb-1 mt-[10px] hidden"
+                        id="save-new-bio">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<footer>
+    <hr class="border-[#1F2937] w-full">
+    <div
+        class="bg-[#0D1117] p-[50px] pr-[150px] pl-[150px] max-2xl:pl-[100px] max-2xl:pr-[100px] max-xl:pl-[20px] max-xl:pr-[20px] max-lg:flex-col max-lg:items-center max-lg:gap-5 max-md:gap-10 flex justify-between">
+        <div class="flex">
+            <a href="/">
+                <img class="w-[310px] h-[100px] rounded-md"
+                    src="https://cdn.discordapp.com/attachments/1009566680520851526/1225497080001462425/image-removebg-preview_1.png?ex=66215818&is=660ee318&hm=67d4dd4e3351d9887cd2cb318a4000887583f15db34c139e0e0bb8b7201eadd8&"
+                    alt="Logo">
+            </a>
+        </div>
+        <div class="flex gap-8 max-md:flex-col">
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Navegação</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Pagína Inicial</a>
+                    <a href="/biography" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Biografia</a>
+                    <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Notícias</a>
+                    <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Galeria</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Links importantes</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="/" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Alguma página
+                        ai</a>
+                </div>
+            </div>
+            <div class="w-[200px]">
+                <h1 class="uppercase font-semibold text-[18px] text-white">Redes sociais</h1>
+                <hr class="border-[#232D3C] w-full mb-[10px]">
+                <div class="flex flex-col">
+                    <a href="https://www.facebook.com/gabrielmartinsvg"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Facebook</a>
+                    <a href="https://www.instagram.com/gabrielmartinsvg/"
+                        class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Instagram</a>
+                    <!-- <a href="/blog" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">Twitter (X)</a> -->
+                    <!-- <a href="/galery" class="text-[#657188] hover:text-[#58a0ff] text-[20px] mb-[-5px]">YouTube</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<style>
+    @keyframes check {
+        100% {
+            content: "\f00d";
+            /* color: #fb5757; */
+        }
+
+        50% {
+            content: "\f00d";
+        }
+
+        0% {
+            content: "\f00c";
+            /* color: #62fb57; */
+        }
+    }
+
+    .switch input {
+        display: none;
+    }
+
+    input {
+        border-radius: 4px;
+        background-color: #fbfbfc;
+        padding: 8px;
+    }
+
+    .switch {
+        display: inline-block;
+        position: relative;
+        min-width: 43px;
+        min-height: 22px;
+    }
+
+    .switch input {
+        display: none;
+    }
+
+    .slider {
+        background-color: #1F232B;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .4s;
+    }
+
+    .slider:before {
+        background-color: #777777;
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        bottom: 3px;
+        left: 3px;
+        position: absolute;
+        font-size: 12px;
+        text-align-last: center;
+        transition: .4s;
+        width: 16px;
+        height: 16px;
+        color: #1F232A;
+        animation: check 0.8s forwards;
+    }
+
+    input:checked+.slider {
+        background-color: #353e51
+    }
+
+    input:checked+.slider:before {
+        color: #353e51
+    }
+
+    input:checked+.slider:before {
+        transform: translateX(22px);
+        animation: none;
+    }
+
+    .gap-6 {
+        gap: 50px;
+    }
+
+    .slider.round {
+        border-radius: 34px
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .3)
+    }
+</style>
+
+</html>
