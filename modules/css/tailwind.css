@@ -217,6 +217,39 @@
     }
 }
 
+code {
+    background-color: #262d2d;
+    width: auto;
+    height: auto;
+    padding: 0.2em;
+    border-radius: 3px;
+    font-size: 85%;
+    font-family: 'gg mono',
+        'Source Code Pro',
+        Consolas,
+        'Andale Mono WT',
+        'Andale Mono',
+        'Lucida Console',
+        'Lucida Sans Typewriter',
+        'DejaVu Sans Mono',
+        'Bitstream Vera Sans Mono',
+        'Liberation Mono',
+        'Nimbus Mono L',
+        Monaco,
+        'Courier New',
+        Courier,
+        monospace;
+        
+}
+
+#text-bar-warn span p code {
+    background-color: 35444459;
+}
+
+#text-warn-bar span p code {
+    background-color: 35444459;
+}
+
 #image-view #image-view-author {
     transition: 0.3s;
     opacity: 0;
