@@ -161,7 +161,29 @@ module.exports.configDatabase = () => {
 
             static globalConfigUpdate = async (dataToUpdate) => {
                 try {
-                    const data = await get(child(ref(db), `config`));
+                    const keysArray = Object.keys(dataToUpdate);
+                    for (let i = 0; i < keysArray.length; i++) {
+                        const key = keysArray[i];
+                        if (key === "page-bio") {
+                            try {
+                                const innerObject = dataToUpdate[key];
+                                const innerKeysArray = Object.keys(innerObject);
+                                for (let j = 0; j < innerKeysArray.length; j++) {
+                                    const innerKey = innerKeysArray[j];
+                                    try {
+                                        await update(ref(db, `config/${key}`), { [innerKey]: dataToUpdate[key][innerKey] });
+                                    } catch (e) {
+                                        await set(ref(db, `config/${key}`), { [innerKey]: dataToUpdate[key][innerKey] });
+                                    }
+                                    const updatedData = await get(child(ref(db), `config`));
+                                    return updatedData.val();
+                                }
+                            } catch (e) {
+                                console.log(e);
+                                return null;
+                            }
+                        }
+                    }
                     await update(ref(db, `config`), dataToUpdate);
                     const updatedData = await get(child(ref(db), `config`));
                     return updatedData.val();
