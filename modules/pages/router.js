@@ -43,7 +43,8 @@ module.exports.pagesRedirect = (db, Pudding) => {
             Auth: req.isAuthenticated(),
             user: req.user,
             title: req.server.config.title,
-            image: req.server.config["image-url"]
+            image: req.server.config["image-url"],
+            page: req.server.config["page-bio"]
         })
     })
 
@@ -97,6 +98,16 @@ module.exports.pagesRedirect = (db, Pudding) => {
     app.get("/admin/pages/index", async (req, res) => {
         if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
         res.render("admin/pages/index.html", {
+            Auth: req.isAuthenticated(),
+            user: req.user,
+            title: req.server.config.title,
+            image: req.server.config["image-url"]
+        })
+    })
+
+    app.get("/admin/pages/biography", async (req, res) => {
+        if (!(req.isAuthenticated() ? (req.user.permissions ? req.user.permissions["admin"] : null) : null)) return res.redirect("/");
+        res.render("admin/pages/biography.html", {
             Auth: req.isAuthenticated(),
             user: req.user,
             title: req.server.config.title,
