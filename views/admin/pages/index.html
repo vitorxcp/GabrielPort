@@ -111,7 +111,7 @@
                         }).catch(err => {
                             $(this).html("Salvar")
                                 .attr("disabled", false)
-                                notifyView({content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1})
+                            notifyView({ content: "Ocorreu algo erro, verifique a sua internet e tente novamente mais tarde!", type: 1 })
                         })
                 } else {
                     $("#image-url").focus();
@@ -124,7 +124,7 @@
                 if (!config) return;
                 clearInterval(intervalServer);
 
-                if(config["page-initial"]) {
+                if (config["page-initial"]) {
                     $("#preview-image").css({
                         "background-image": "url(" + config["page-initial"].images + ")",
                         "background-repeat": "round"
@@ -241,7 +241,7 @@
     <div class="h-[100px]"></div>
     <section class="flex flex-col gap-[40px]">
         <div class="fixed mt-[20px] ml-[20px] z-20">
-            <button class="bg-sky-600 hover:bg-sky-700 transition pt-2 pb-2 pr-3 pl-3 rounded-md hidden max-md:flex"
+            <button class="hidden pt-2 pb-2 pl-3 pr-3 transition rounded-md bg-sky-600 hover:bg-sky-700 max-md:flex"
                 id="bar-view-painel">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -271,11 +271,8 @@
                                 <a href="/admin/pages/index"
                                     class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px] transition">Página
                                     Inicial</a>
-                                <div
-                                    class="cursor-pointer w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">
-                                    <h1>Biografia</h1>
-                                    <div></div>
-                                </div>
+                                <a href="/admin/pages/biography"
+                                    class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Biografia</a>
                                 <a href="/admin/pages/blog"
                                     class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
                                 <a href="/admin/pages/galery"
@@ -305,11 +302,8 @@
                         <a href="/admin/pages/index"
                             class="w-full p-2 pt-1 pb-1 bg-[rgba(79,192,255,0.12)] rounded-md text-[18px]">Página
                             Inicial</a>
-                        <div
-                            class="cursor-pointer w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">
-                            <h1>Biografia</h1>
-                            <div></div>
-                        </div>
+                        <a href="/admin/pages/biography"
+                            class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Biografia</a>
                         <a href="/admin/pages/blog"
                             class="w-full p-2 pt-1 pb-1 bg-[rgba(217,217,217,0.08)] hover:bg-[rgba(90,90,90,0.38)] rounded-md text-[18px] text-[rgba(255,255,255,0.57)] hover:text-[rgba(255,255,255,0.86)] transition">Notícias</a>
                         <a href="/admin/pages/galery"
@@ -325,21 +319,21 @@
                         <div class="bg-[#161920] rounded-lg w-[350px] h-[200px] group" id="preview-image">
                             <div
                                 class="transition opacity-0 group-hover:opacity-100 flex gap-1 w-full h-full justify-end items-end mt-[-8px] ml-[-8px]">
-                                <div
-                                    class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
+                                <div class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300"
                                     id="edit-image-initial">
                                     <i class="fa-solid fa-pencil"></i>
                                 </div>
                                 <!-- <div
                                                     class="bg-[#2B303D] hover:bg-[#21252e] transition p-2 pb-1 cursor-pointer rounded-md text-[12px] text-neutral-300">
-                                                    <i class="fa-solid fa-trash-can text-red-500"></i>
+                                                    <i class="text-red-500 fa-solid fa-trash-can"></i>
                                                 </div> -->
                             </div>
                         </div>
                         <div class="bg-[#161920] rounded-lg w-[350px] h-[200px] group cursor-no-drop"
                             onclick="notifyView({content: 'Sistema temporariamente desativado!', type: 1})">
-                            <div class="flex justify-center items-center w-full h-full">
-                                <div class="rounded-full w-[100px] h-[100px] bg-[#282c36] flex justify-center items-center">
+                            <div class="flex items-center justify-center w-full h-full">
+                                <div
+                                    class="rounded-full w-[100px] h-[100px] bg-[#282c36] flex justify-center items-center">
                                     <i class="fa-solid fa-plus text-[50px] text-[#161920]"></i>
                                 </div>
                             </div>
