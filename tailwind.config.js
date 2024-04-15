@@ -4,6 +4,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ["./**/**/*.{html,js}"],
   theme: {
+    "word-break": "word-break: break-word",
     aspectRatio: {
       auto: 'auto',
       square: '1 / 1',
